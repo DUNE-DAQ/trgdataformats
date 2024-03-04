@@ -20,20 +20,8 @@ register_trigger_primitive(py::module& m)
 {
 
 
-  py::enum_<TriggerPrimitive::Type>(m, "TriggerPrimitive::Type")
-    .value("kUnknown", TriggerPrimitive::Type::kUnknown)
-    .value("kTPC", TriggerPrimitive::Type::kTPC)
-    .value("kPDS", TriggerPrimitive::Type::kPDS)
-    .export_values();
-
-  py::enum_<TriggerPrimitive::Algorithm>(m, "TriggerPrimitive::Algorithm")
-    .value("kUnknown", TriggerPrimitive::Algorithm::kUnknown)
-    .value("kSimpleThreshold", TriggerPrimitive::Algorithm::kSimpleThreshold)
-    .value("kAbsRunningSum", TriggerPrimitive::Algorithm::kAbsRunningSum)
-    .value("kRunningSum", TriggerPrimitive::Algorithm::kRunningSum)
-    .export_values();
-
-  py::class_<TriggerPrimitive>(m, "TriggerPrimitive", py::buffer_protocol())
+  py::class_<TriggerPrimitive> trigger_primitive(m, "TriggerPrimitive", py::buffer_protocol());
+  trigger_primitive
     .def(py::init())
     .def(py::init([](py::capsule capsule) {
         auto tp = *static_cast<TriggerPrimitive*>(capsule.get_pointer());
@@ -52,6 +40,17 @@ register_trigger_primitive(py::module& m)
     .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint16_t {return self.flag;})
     .def_static("sizeof", [](){ return sizeof(TriggerPrimitive); })
     ;
+
+  py::enum_<TriggerPrimitive::Type>(trigger_primitive, "Type")
+    .value("kUnknown", TriggerPrimitive::Type::kUnknown)
+    .value("kTPC", TriggerPrimitive::Type::kTPC)
+    .value("kPDS", TriggerPrimitive::Type::kPDS);
+
+  py::enum_<TriggerPrimitive::Algorithm>(trigger_primitive, "Algorithm")
+    .value("kUnknown", TriggerPrimitive::Algorithm::kUnknown)
+    .value("kSimpleThreshold", TriggerPrimitive::Algorithm::kSimpleThreshold)
+    .value("kAbsRunningSum", TriggerPrimitive::Algorithm::kAbsRunningSum)
+    .value("kRunningSum", TriggerPrimitive::Algorithm::kRunningSum);
 
 }
 

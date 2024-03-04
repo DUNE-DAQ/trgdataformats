@@ -43,30 +43,9 @@ register_trigger_candidate(py::module& m)
 
   m.def("string_to_fragment_type_value", &trgdataformats::string_to_fragment_type_value);
 
-  py::enum_<TriggerCandidateData::Type>(m, "TriggerCandidateData::Type")
-    .value("kUnknown", TriggerCandidateData::Type::kUnknown)
-    .value("kTiming", TriggerCandidateData::Type::kTiming)
-    .value("kTPCLowE", TriggerCandidateData::Type::kTPCLowE)
-    .value("kSupernova", TriggerCandidateData::Type::kSupernova)
-    .value("kRandom", TriggerCandidateData::Type::kRandom)
-    .value("kADCSimpleWindow", TriggerCandidateData::Type::kADCSimpleWindow)
-    .value("kHorizontalMuon", TriggerCandidateData::Type::kHorizontalMuon)
-    .value("kMichelElectron", TriggerCandidateData::Type::kMichelElectron)
-    .value("kPlaneCoincidence", TriggerCandidateData::Type::kPlaneCoincidence)
-    .export_values();
 
-  py::enum_<TriggerCandidateData::Algorithm>(m, "TriggerCandidateData::Algorithm")
-    .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
-    .value("kSupernova", TriggerCandidateData::Algorithm::kSupernova)
-    .value("kHSIEventToTriggerCandidate", TriggerCandidateData::Algorithm::kHSIEventToTriggerCandidate)
-    .value("kPrescale", TriggerCandidateData::Algorithm::kPrescale)
-    .value("kADCSimpleWindow", TriggerCandidateData::Algorithm::kADCSimpleWindow)
-    .value("kHorizontalMuon", TriggerCandidateData::Algorithm::kHorizontalMuon)
-    .value("kPlaneCoincidence", TriggerCandidateData::Algorithm::kPlaneCoincidence)
-    .value("kCustom", TriggerCandidateData::Algorithm::kCustom)
-    .export_values();
-
-  py::class_<TriggerCandidateData>(m, "TriggerCandidateData", py::buffer_protocol())
+  py::class_<TriggerCandidateData> trigger_candidate_data(m, "TriggerCandidateData", py::buffer_protocol());
+  trigger_candidate_data
     .def(py::init())
     .def(py::init([](py::capsule capsule) {
         auto tp = *static_cast<TriggerCandidateData*>(capsule.get_pointer());
@@ -87,6 +66,26 @@ register_trigger_candidate(py::module& m)
     .def_static("sizeof", [](){ return sizeof(TriggerCandidateData); })
     ;
 
+  py::enum_<TriggerCandidateData::Type>(trigger_candidate_data, "Type")
+    .value("kUnknown", TriggerCandidateData::Type::kUnknown)
+    .value("kTiming", TriggerCandidateData::Type::kTiming)
+    .value("kTPCLowE", TriggerCandidateData::Type::kTPCLowE)
+    .value("kSupernova", TriggerCandidateData::Type::kSupernova)
+    .value("kRandom", TriggerCandidateData::Type::kRandom)
+    .value("kADCSimpleWindow", TriggerCandidateData::Type::kADCSimpleWindow)
+    .value("kHorizontalMuon", TriggerCandidateData::Type::kHorizontalMuon)
+    .value("kMichelElectron", TriggerCandidateData::Type::kMichelElectron)
+    .value("kPlaneCoincidence", TriggerCandidateData::Type::kPlaneCoincidence);
+
+  py::enum_<TriggerCandidateData::Algorithm>(trigger_candidate_data, "Algorithm")
+    .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
+    .value("kSupernova", TriggerCandidateData::Algorithm::kSupernova)
+    .value("kHSIEventToTriggerCandidate", TriggerCandidateData::Algorithm::kHSIEventToTriggerCandidate)
+    .value("kPrescale", TriggerCandidateData::Algorithm::kPrescale)
+    .value("kADCSimpleWindow", TriggerCandidateData::Algorithm::kADCSimpleWindow)
+    .value("kHorizontalMuon", TriggerCandidateData::Algorithm::kHorizontalMuon)
+    .value("kPlaneCoincidence", TriggerCandidateData::Algorithm::kPlaneCoincidence)
+    .value("kCustom", TriggerCandidateData::Algorithm::kCustom);
 
   py::class_<TriggerCandidate>(m, "TriggerCandidateOverlay", py::buffer_protocol())
       .def(py::init())
