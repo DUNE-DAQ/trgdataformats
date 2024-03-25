@@ -45,7 +45,7 @@ struct TriggerCandidateData
     kMichelElectron = 6, 
     kPlaneCoincidence = 7,    
     kCustom = 8,
-    kTrackFinding = 5,
+    kTrackFinding = 9,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
