@@ -46,6 +46,10 @@ struct TriggerCandidateData
     kCTBCosmicSaleve = 22,
     kNeutronSourceCalib = 23,
     kChannelAdjacency = 24,
+    kCIBFakeTrigger =25,
+    kCIBLaserTriggerP1 = 26,
+    kCIBLaserTriggerP2 = 27,
+    kCIBLaserTriggerP3 = 28,
   };
 
   enum class Algorithm
@@ -111,6 +115,10 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kCTBCosmicSaleve,      "kCTBCosmicSaleve" },
     { TriggerCandidateData::Type::kNeutronSourceCalib,   "kNeutronSourceCalib" },
     { TriggerCandidateData::Type::kChannelAdjacency,     "kChannelAdjacency" },
+    { TriggerCandidateData::Type::kCIBFakeTrigger,       "kCIBFakeTrigger" },
+    { TriggerCandidateData::Type::kCIBLaserTriggerP1,    "kCIBLaserTriggerP1" },
+    { TriggerCandidateData::Type::kCIBLaserTriggerP2,    "kCIBLaserTriggerP2" },
+    { TriggerCandidateData::Type::kCIBLaserTriggerP3,    "kCIBLaserTriggerP3" },
   };
 }
 
