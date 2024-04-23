@@ -68,6 +68,10 @@ register_trigger_candidate(py::module& m)
     .value("kCTBCosmicSaleve", TriggerCandidateData::Type::kCTBCosmicSaleve)
     .value("kNeutronSourceCalib", TriggerCandidateData::Type::kNeutronSourceCalib)
     .value("kChannelAdjacency", TriggerCandidateData::Type::kChannelAdjacency)
+    .value("kCIBFakeTrigger", TriggerCandidateData::Type::kCIBFakeTrigger)
+    .value("kCIBLaserTriggerP1", TriggerCandidateData::Type::kCIBLaserTriggerP1)
+    .value("kCIBLaserTriggerP2", TriggerCandidateData::Type::kCIBLaserTriggerP2)
+    .value("kCIBLaserTriggerP3", TriggerCandidateData::Type::kCIBLaserTriggerP3)
     .export_values();
 
   py::enum_<TriggerCandidateData::Algorithm>(m, "TriggerCandidateData::Algorithm")
