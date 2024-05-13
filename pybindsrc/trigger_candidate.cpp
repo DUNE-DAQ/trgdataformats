@@ -112,18 +112,22 @@ register_trigger_candidate(py::module& m)
 
 
   py::class_<TriggerCandidate>(m, "TriggerCandidateOverlay", py::buffer_protocol())
-      .def(py::init())
       .def(py::init([](py::capsule capsule) {
         auto tp = *static_cast<TriggerCandidate*>(capsule.get_pointer());
         return tp;
 		  } ))
       .def_property_readonly("data", [](TriggerCandidate& self) -> TriggerCandidateData& {return self.data;})
       .def("__len__", [](TriggerCandidate& self){ return self.n_inputs; })
-      .def("sizeof", [](TriggerCandidate& self){ return sizeof(TriggerCandidate)+self.n_inputs*sizeof(TriggerPrimitive); })
+      .def("sizeof", [](TriggerCandidate& self){ return sizeof(TriggerCandidate)+self.n_inputs*sizeof(TriggerActivityData); })
     ;
 
 
     py::class_<TriggerCandidateHolder>(m, "TriggerCandidate", py::buffer_protocol())
+      .def(py::init([](py::capsule capsule) {
+           auto tc_ptr = static_cast<TriggerCandidate*>(capsule.get_pointer());
+           TriggerCandidateHolder tch(tc_ptr, sizeof(TriggerCandidate)+tc_ptr->n_inputs*sizeof(TriggerActivityData));
+           return tch;
+        }))
       .def(py::init([](py::bytes bytes){
           py::buffer_info info(py::buffer(bytes).request());
 
