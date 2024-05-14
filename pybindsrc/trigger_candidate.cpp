@@ -43,7 +43,29 @@ register_trigger_candidate(py::module& m)
 
   m.def("string_to_fragment_type_value", &trgdataformats::string_to_fragment_type_value);
 
-  py::enum_<TriggerCandidateData::Type>(m, "TriggerCandidateData::Type")
+  py::class_<TriggerCandidateData> trigger_candidate_data(m, "TriggerCandidateData", py::buffer_protocol());
+  trigger_candidate_data
+    .def(py::init())
+    .def(py::init([](py::capsule capsule) {
+        auto tp = *static_cast<TriggerCandidateData*>(capsule.get_pointer());
+        return tp;
+		  } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto tp = *static_cast<TriggerCandidateData*>(info.ptr);
+      return tp;
+    }))
+    .def_property_readonly("version", [](TriggerCandidateData& self) -> uint16_t {return self.version;})
+    .def_property_readonly("time_start", [](TriggerCandidateData& self) -> uint64_t {return self.time_start;})
+    .def_property_readonly("time_end", [](TriggerCandidateData& self) -> uint64_t {return self.time_end;})
+    .def_property_readonly("time_candidate", [](TriggerCandidateData& self) -> uint64_t {return self.time_candidate;})
+    .def_property_readonly("detid", [](TriggerCandidateData& self) -> uint16_t {return self.detid;})
+    .def_property_readonly("type", [](TriggerCandidateData& self) -> TriggerCandidateData::Type {return self.type;})
+    .def_property_readonly("algorithm", [](TriggerCandidateData& self) -> TriggerCandidateData::Algorithm {return self.algorithm;})
+    .def_static("sizeof", [](){ return sizeof(TriggerCandidateData); })
+    ;
+
+  py::enum_<TriggerCandidateData::Type>(trigger_candidate_data, "Type")
     .value("kUnknown", TriggerCandidateData::Type::kUnknown)
     .value("kTiming", TriggerCandidateData::Type::kTiming)
     .value("kTPCLowE", TriggerCandidateData::Type::kTPCLowE)
@@ -71,10 +93,9 @@ register_trigger_candidate(py::module& m)
     .value("kCIBFakeTrigger", TriggerCandidateData::Type::kCIBFakeTrigger)
     .value("kCIBLaserTriggerP1", TriggerCandidateData::Type::kCIBLaserTriggerP1)
     .value("kCIBLaserTriggerP2", TriggerCandidateData::Type::kCIBLaserTriggerP2)
-    .value("kCIBLaserTriggerP3", TriggerCandidateData::Type::kCIBLaserTriggerP3)
-    .export_values();
+    .value("kCIBLaserTriggerP3", TriggerCandidateData::Type::kCIBLaserTriggerP3);
 
-  py::enum_<TriggerCandidateData::Algorithm>(m, "TriggerCandidateData::Algorithm")
+  py::enum_<TriggerCandidateData::Algorithm>(trigger_candidate_data, "Algorithm")
     .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
     .value("kSupernova", TriggerCandidateData::Algorithm::kSupernova)
     .value("kHSIEventToTriggerCandidate", TriggerCandidateData::Algorithm::kHSIEventToTriggerCandidate)
@@ -86,30 +107,7 @@ register_trigger_candidate(py::module& m)
     .value("kDBSCAN", TriggerCandidateData::Algorithm::kDBSCAN)
     .value("kChannelDistance", TriggerCandidateData::Algorithm::kChannelDistance)
     .value("kBundle", TriggerCandidateData::Algorithm::kBundle)
-    .value("kChannelAdjacency", TriggerCandidateData::Algorithm::kChannelAdjacency)
-    .export_values();
-
-  py::class_<TriggerCandidateData>(m, "TriggerCandidateData", py::buffer_protocol())
-    .def(py::init())
-    .def(py::init([](py::capsule capsule) {
-        auto tp = *static_cast<TriggerCandidateData*>(capsule.get_pointer());
-        return tp;
-		  } ))
-    .def(py::init([](py::bytes bytes){
-      py::buffer_info info(py::buffer(bytes).request());
-      auto tp = *static_cast<TriggerCandidateData*>(info.ptr);
-      return tp;
-    }))
-    .def_property_readonly("version", [](TriggerCandidateData& self) -> uint16_t {return self.version;})
-    .def_property_readonly("time_start", [](TriggerCandidateData& self) -> uint64_t {return self.time_start;})
-    .def_property_readonly("time_end", [](TriggerCandidateData& self) -> uint64_t {return self.time_end;})
-    .def_property_readonly("time_candidate", [](TriggerCandidateData& self) -> uint64_t {return self.time_candidate;})
-    .def_property_readonly("detid", [](TriggerCandidateData& self) -> uint16_t {return self.detid;})
-    .def_property_readonly("type", [](TriggerCandidateData& self) -> TriggerCandidateData::Type {return self.type;})
-    .def_property_readonly("algorithm", [](TriggerCandidateData& self) -> TriggerCandidateData::Algorithm {return self.algorithm;})
-    .def_static("sizeof", [](){ return sizeof(TriggerCandidateData); })
-    ;
-
+    .value("kChannelAdjacency", TriggerCandidateData::Algorithm::kChannelAdjacency);
 
   py::class_<TriggerCandidate>(m, "TriggerCandidateOverlay", py::buffer_protocol())
       .def(py::init([](py::capsule capsule) {
