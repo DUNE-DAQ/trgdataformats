@@ -86,7 +86,8 @@ register_trigger_activity(py::module& m)
     .value("kDBSCAN", TriggerActivityData::Algorithm::kDBSCAN)
     .value("kBundle", TriggerActivityData::Algorithm::kBundle)
     .value("kChannelDistance", TriggerActivityData::Algorithm::kChannelDistance)
-    .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency);
+    .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency)
+    .value("kChannelTimeAdjacency", TriggerActivityData::Algorithm::kChannelTimeAdjacency);
 
   py::class_<TriggerActivity>(m, "TriggerActivityOverlay", py::buffer_protocol())
       .def(py::init())

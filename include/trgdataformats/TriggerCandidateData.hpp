@@ -50,6 +50,7 @@ struct TriggerCandidateData
     kCIBLaserTriggerP1 = 26,
     kCIBLaserTriggerP2 = 27,
     kCIBLaserTriggerP3 = 28,
+    kChannelTimeAdjacency = 29,
   };
 
   enum class Algorithm
@@ -67,6 +68,7 @@ struct TriggerCandidateData
     kChannelDistance = 10,
     kBundle = 11,
     kChannelAdjacency = 12,
+    kChannelTimeAdjacency = 13,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
@@ -119,6 +121,7 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kCIBLaserTriggerP1,    "kCIBLaserTriggerP1" },
     { TriggerCandidateData::Type::kCIBLaserTriggerP2,    "kCIBLaserTriggerP2" },
     { TriggerCandidateData::Type::kCIBLaserTriggerP3,    "kCIBLaserTriggerP3" },
+    { TriggerCandidateData::Type::kChannelTimeAdjacency, "kChannelTimeAdjacency" },
   };
 }
 

@@ -36,6 +36,7 @@ struct TriggerActivityData
     kChannelDistance = 8,
     kBundle = 9,
     kChannelAdjacency = 10,
+    kChannelTimeAdjacency = 11,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
