@@ -42,26 +42,8 @@ register_trigger_activity(py::module& m)
 {
 
 
-  py::enum_<TriggerActivityData::Type>(m, "TriggerActivityData::Type")
-    .value("kUnknown", TriggerActivityData::Type::kUnknown)
-    .value("kTPC", TriggerActivityData::Type::kTPC)
-    .value("kPDS", TriggerActivityData::Type::kPDS)
-    .export_values();
-
-  py::enum_<TriggerActivityData::Algorithm>(m, "TriggerActivityData::Algorithm")
-    .value("kUnknown", TriggerActivityData::Algorithm::kUnknown)
-    .value("kSupernova", TriggerActivityData::Algorithm::kSupernova)
-    .value("kPrescale", TriggerActivityData::Algorithm::kPrescale)
-    .value("kADCSimpleWindow", TriggerActivityData::Algorithm::kADCSimpleWindow)
-    .value("kHorizontalMuon", TriggerActivityData::Algorithm::kHorizontalMuon)
-    .value("kMichelElectron", TriggerActivityData::Algorithm::kMichelElectron)
-    .value("kDBSCAN", TriggerActivityData::Algorithm::kDBSCAN)
-    .value("kBundle", TriggerActivityData::Algorithm::kBundle)
-    .value("kChannelDistance", TriggerActivityData::Algorithm::kChannelDistance)
-    .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency)
-    .export_values();
-
-  py::class_<TriggerActivityData>(m, "TriggerActivityData", py::buffer_protocol())
+  py::class_<TriggerActivityData> trigger_activity_data(m, "TriggerActivityData", py::buffer_protocol());
+  trigger_activity_data
     .def(py::init())
     .def(py::init([](py::capsule capsule) {
         auto tp = *static_cast<TriggerActivityData*>(capsule.get_pointer());
@@ -88,6 +70,23 @@ register_trigger_activity(py::module& m)
     .def_static("sizeof", [](){ return sizeof(TriggerActivityData); })
     ;
 
+
+  py::enum_<TriggerActivityData::Type>(trigger_activity_data, "Type")
+    .value("kUnknown", TriggerActivityData::Type::kUnknown)
+    .value("kTPC", TriggerActivityData::Type::kTPC)
+    .value("kPDS", TriggerActivityData::Type::kPDS);
+
+  py::enum_<TriggerActivityData::Algorithm>(trigger_activity_data, "Algorithm")
+    .value("kUnknown", TriggerActivityData::Algorithm::kUnknown)
+    .value("kSupernova", TriggerActivityData::Algorithm::kSupernova)
+    .value("kPrescale", TriggerActivityData::Algorithm::kPrescale)
+    .value("kADCSimpleWindow", TriggerActivityData::Algorithm::kADCSimpleWindow)
+    .value("kHorizontalMuon", TriggerActivityData::Algorithm::kHorizontalMuon)
+    .value("kMichelElectron", TriggerActivityData::Algorithm::kMichelElectron)
+    .value("kDBSCAN", TriggerActivityData::Algorithm::kDBSCAN)
+    .value("kBundle", TriggerActivityData::Algorithm::kBundle)
+    .value("kChannelDistance", TriggerActivityData::Algorithm::kChannelDistance)
+    .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency);
 
   py::class_<TriggerActivity>(m, "TriggerActivityOverlay", py::buffer_protocol())
       .def(py::init())
