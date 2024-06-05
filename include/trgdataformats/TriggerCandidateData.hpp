@@ -50,6 +50,8 @@ struct TriggerCandidateData
     kCIBLaserTriggerP1 = 26,
     kCIBLaserTriggerP2 = 27,
     kCIBLaserTriggerP3 = 28,
+    kTLUFakeTrigger = 29,
+    kICEBERGCosmic = 30,
   };
 
   enum class Algorithm
@@ -70,7 +72,7 @@ struct TriggerCandidateData
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
-  static constexpr version_t s_trigger_candidate_version = 2; // NOLINT(build/unsigned)
+  static constexpr version_t s_trigger_candidate_version = 3; // NOLINT(build/unsigned)
 
   version_t version = s_trigger_candidate_version;       // NOLINT(build/unsigned)
   timestamp_t time_start = INVALID_TIMESTAMP;
@@ -119,6 +121,8 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kCIBLaserTriggerP1,    "kCIBLaserTriggerP1" },
     { TriggerCandidateData::Type::kCIBLaserTriggerP2,    "kCIBLaserTriggerP2" },
     { TriggerCandidateData::Type::kCIBLaserTriggerP3,    "kCIBLaserTriggerP3" },
+    { TriggerCandidateData::Type::kTLUFakeTrigger,       "kTLUFakeTrigger" },
+    { TriggerCandidateData::Type::kICEBERGCosmic,        "kICEBERGCosmic" },
   };
 }
 
