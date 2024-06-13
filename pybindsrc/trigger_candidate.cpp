@@ -93,7 +93,9 @@ register_trigger_candidate(py::module& m)
     .value("kCIBFakeTrigger", TriggerCandidateData::Type::kCIBFakeTrigger)
     .value("kCIBLaserTriggerP1", TriggerCandidateData::Type::kCIBLaserTriggerP1)
     .value("kCIBLaserTriggerP2", TriggerCandidateData::Type::kCIBLaserTriggerP2)
-    .value("kCIBLaserTriggerP3", TriggerCandidateData::Type::kCIBLaserTriggerP3);
+    .value("kCIBLaserTriggerP3", TriggerCandidateData::Type::kCIBLaserTriggerP3)
+    .value("kTLUFakeTrigger", TriggerCandidateData::Type::kTLUFakeTrigger)
+    .value("kICEBERGCosmic", TriggerCandidateData::Type::kICEBERGCosmic);
 
   py::enum_<TriggerCandidateData::Algorithm>(trigger_candidate_data, "Algorithm")
     .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
