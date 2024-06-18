@@ -57,8 +57,8 @@ struct TriggerCandidateData
     kCTBCustomB = 33,
     kCTBCustomC = 34,
     kCTBCustomPulseTrain = 35,
-    kTLUFakeTrigger = 36,
-    kICEBERGCosmic = 37,
+    kDTSPulser = 36,
+    kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
   };
 
@@ -137,8 +137,8 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kCTBCustomB, "kCTBCustomB" },
     { TriggerCandidateData::Type::kCTBCustomC, "kCTBCustomC" },
     { TriggerCandidateData::Type::kCTBCustomPulseTrain, "kCTBCustomPulseTrain" },
-    { TriggerCandidateData::Type::kTLUFakeTrigger, "kTLUFakeTrigger" },
-    { TriggerCandidateData::Type::kICEBERGCosmic, "kICEBERGCosmic" },
+    { TriggerCandidateData::Type::kDTSPulser, "kDTSPulser" },
+    { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
     { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
   };
 }
