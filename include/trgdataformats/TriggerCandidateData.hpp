@@ -59,6 +59,8 @@ struct TriggerCandidateData
     kCTBCustomPulseTrain = 35,
     kTLUFakeTrigger = 36,
     kICEBERGCosmic = 37,
+    kSSPLEDPulse = 38,
+    kTimingCommand = 39,
   };
 
   enum class Algorithm
@@ -138,6 +140,8 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kCTBCustomPulseTrain, "kCTBCustomPulseTrain" },
     { TriggerCandidateData::Type::kTLUFakeTrigger, "kTLUFakeTrigger" },
     { TriggerCandidateData::Type::kICEBERGCosmic, "kICEBERGCosmic" },
+    { TriggerCandidateData::Type::kSSPLEDPulse, "kSSPLEDPulse" },
+    { TriggerCandidateData::Type::kTimingCommand, "kTimingCommand" },
   };
 }
 
