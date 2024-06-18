@@ -103,7 +103,8 @@ register_trigger_candidate(py::module& m)
     .value("kCTBCustomC", TriggerCandidateData::Type::kCTBCustomC)
     .value("kCTBCustomPulseTrain", TriggerCandidateData::Type::kCTBCustomPulseTrain)
     .value("kDTSPulser", TriggerCandidateData::Type::kDTSPulser)
-    .value("kDTSCosmic", TriggerCandidateData::Type::kDTSCosmic);
+    .value("kDTSCosmic", TriggerCandidateData::Type::kDTSCosmic)
+    .value("kSSPLEDCalibration", TriggerCandidateData::Type::kSSPLEDCalibration);
 
   py::enum_<TriggerCandidateData::Algorithm>(trigger_candidate_data, "Algorithm")
     .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
