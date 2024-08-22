@@ -31,6 +31,35 @@ struct TriggerCandidateData
     kHorizontalMuon = 7,
     kMichelElectron = 8,
     kPlaneCoincidence = 9,
+    kDBSCAN = 10,
+    kChannelDistance = 11,
+    kBundle = 12,
+    kCTBFakeTrigger = 13,
+    kCTBBeam = 14,
+    kCTBBeamChkvHL = 15,
+    kCTBCustomD = 16,
+    kCTBCustomE = 17,
+    kCTBCustomF = 18,
+    kCTBCustomG = 19,
+    kCTBBeamChkvHLx = 20,
+    kCTBBeamChkvHxL = 21,
+    kCTBBeamChkvHxLx = 22,
+    kNeutronSourceCalib = 23,
+    kChannelAdjacency = 24,
+    kCIBFakeTrigger = 25,
+    kCIBLaserTriggerP1 = 26,
+    kCIBLaserTriggerP2 = 27,
+    kCIBLaserTriggerP3 = 28,
+    kCTBOffSpillSnapshot = 29,
+    kCTBOffSpillCosmicJura = 30,
+    kCTBOffSpillCRTCosmic= 31,
+    kCTBCustomA = 32,
+    kCTBCustomB = 33,
+    kCTBCustomC = 34,
+    kCTBCustomPulseTrain = 35,
+    kDTSPulser = 36,
+    kDTSCosmic = 37,
+    kSSPLEDCalibration = 38,
   };
 
   enum class Algorithm
@@ -41,15 +70,19 @@ struct TriggerCandidateData
     kPrescale = 3,
     kADCSimpleWindow = 4,
     kHorizontalMuon = 5,
-    kMichelElectron = 6, 
-    kPlaneCoincidence = 7,    
-    kCustom = 8, 
+    kMichelElectron = 6,
+    kPlaneCoincidence = 7,
+    kCustom = 8,
+    kDBSCAN = 9,
+    kChannelDistance = 10,
+    kBundle = 11,
+    kChannelAdjacency = 12,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
-  static constexpr version_t s_trigger_candidate_version = 1; // NOLINT(build/unsigned)
+  static constexpr version_t s_trigger_candidate_version = 2; // NOLINT(build/unsigned)
 
-  version_t version = s_trigger_candidate_version;       // NOLINT(build/unsigned)
+  version_t version = s_trigger_candidate_version; // NOLINT(build/unsigned)
   timestamp_t time_start = INVALID_TIMESTAMP;
   timestamp_t time_end = INVALID_TIMESTAMP;
   timestamp_t time_candidate = INVALID_TIMESTAMP;
@@ -62,7 +95,8 @@ struct TriggerCandidateData
   Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
 };
 
-// This map needs to be updated for each new TC type, as this is used when configuring Trigger Bitwords, affecting trigger logic in trigger::MLT
+// This map needs to be updated for each new TC type, as this is used when configuring Trigger Bitwords, affecting
+// trigger logic in trigger::MLT
 inline std::map<TriggerCandidateData::Type, std::string>
 get_trigger_candidate_type_names()
 {
@@ -77,6 +111,35 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kHorizontalMuon, "kHorizontalMuon" },
     { TriggerCandidateData::Type::kMichelElectron, "kMichelElectron" },
     { TriggerCandidateData::Type::kPlaneCoincidence, "kPlaneCoincidence" },
+    { TriggerCandidateData::Type::kDBSCAN, "kDBSCAN" },
+    { TriggerCandidateData::Type::kChannelDistance, "kChannelDistance" },
+    { TriggerCandidateData::Type::kBundle, "kBundle" },
+    { TriggerCandidateData::Type::kCTBFakeTrigger, "kCTBFakeTrigger" },
+    { TriggerCandidateData::Type::kCTBBeam, "kCTBBeam" },
+    { TriggerCandidateData::Type::kCTBBeamChkvHL, "kCTBBeamChkvHL" },
+    { TriggerCandidateData::Type::kCTBCustomD, "kCTBCustomD" },
+    { TriggerCandidateData::Type::kCTBCustomE, "kCTBCustomE" },
+    { TriggerCandidateData::Type::kCTBCustomF, "kCTBCustomF" },
+    { TriggerCandidateData::Type::kCTBCustomG, "kCTBCustomG" },
+    { TriggerCandidateData::Type::kCTBBeamChkvHLx, "kCTBBeamChkvHLx" },
+    { TriggerCandidateData::Type::kCTBBeamChkvHxL, "kCTBBeamChkvHxL" },
+    { TriggerCandidateData::Type::kCTBBeamChkvHxLx, "kCTBBeamChkvHxLx" },
+    { TriggerCandidateData::Type::kNeutronSourceCalib, "kNeutronSourceCalib" },
+    { TriggerCandidateData::Type::kChannelAdjacency, "kChannelAdjacency" },
+    { TriggerCandidateData::Type::kCIBFakeTrigger, "kCIBFakeTrigger" },
+    { TriggerCandidateData::Type::kCIBLaserTriggerP1, "kCIBLaserTriggerP1" },
+    { TriggerCandidateData::Type::kCIBLaserTriggerP2, "kCIBLaserTriggerP2" },
+    { TriggerCandidateData::Type::kCIBLaserTriggerP3, "kCIBLaserTriggerP3" },
+    { TriggerCandidateData::Type::kCTBOffSpillSnapshot, "kCTBOffSpillSnapshot" },
+    { TriggerCandidateData::Type::kCTBOffSpillCosmicJura, "kCTBOffSpillCosmicJura" },
+    { TriggerCandidateData::Type::kCTBOffSpillCRTCosmic, "kCTBOffSpillCRTCosmic" },
+    { TriggerCandidateData::Type::kCTBCustomA, "kCTBCustomA" },
+    { TriggerCandidateData::Type::kCTBCustomB, "kCTBCustomB" },
+    { TriggerCandidateData::Type::kCTBCustomC, "kCTBCustomC" },
+    { TriggerCandidateData::Type::kCTBCustomPulseTrain, "kCTBCustomPulseTrain" },
+    { TriggerCandidateData::Type::kDTSPulser, "kDTSPulser" },
+    { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
+    { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
   };
 }
 

@@ -40,7 +40,9 @@ struct TriggerPrimitive
   enum class Algorithm
   {
     kUnknown = 0,
-    kTPCDefault = 1
+    kSimpleThreshold = 1,
+    kAbsRunningSum = 2,
+    kRunningSum = 3
   };
 
   /**

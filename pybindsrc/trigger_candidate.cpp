@@ -43,30 +43,8 @@ register_trigger_candidate(py::module& m)
 
   m.def("string_to_fragment_type_value", &trgdataformats::string_to_fragment_type_value);
 
-  py::enum_<TriggerCandidateData::Type>(m, "TriggerCandidateData::Type")
-    .value("kUnknown", TriggerCandidateData::Type::kUnknown)
-    .value("kTiming", TriggerCandidateData::Type::kTiming)
-    .value("kTPCLowE", TriggerCandidateData::Type::kTPCLowE)
-    .value("kSupernova", TriggerCandidateData::Type::kSupernova)
-    .value("kRandom", TriggerCandidateData::Type::kRandom)
-    .value("kADCSimpleWindow", TriggerCandidateData::Type::kADCSimpleWindow)
-    .value("kHorizontalMuon", TriggerCandidateData::Type::kHorizontalMuon)
-    .value("kMichelElectron", TriggerCandidateData::Type::kMichelElectron)
-    .value("kPlaneCoincidence", TriggerCandidateData::Type::kPlaneCoincidence)
-    .export_values();
-
-  py::enum_<TriggerCandidateData::Algorithm>(m, "TriggerCandidateData::Algorithm")
-    .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
-    .value("kSupernova", TriggerCandidateData::Algorithm::kSupernova)
-    .value("kHSIEventToTriggerCandidate", TriggerCandidateData::Algorithm::kHSIEventToTriggerCandidate)
-    .value("kPrescale", TriggerCandidateData::Algorithm::kPrescale)
-    .value("kADCSimpleWindow", TriggerCandidateData::Algorithm::kADCSimpleWindow)
-    .value("kHorizontalMuon", TriggerCandidateData::Algorithm::kHorizontalMuon)
-    .value("kPlaneCoincidence", TriggerCandidateData::Algorithm::kPlaneCoincidence)
-    .value("kCustom", TriggerCandidateData::Algorithm::kCustom)
-    .export_values();
-
-  py::class_<TriggerCandidateData>(m, "TriggerCandidateData", py::buffer_protocol())
+  py::class_<TriggerCandidateData> trigger_candidate_data(m, "TriggerCandidateData", py::buffer_protocol());
+  trigger_candidate_data
     .def(py::init())
     .def(py::init([](py::capsule capsule) {
         auto tp = *static_cast<TriggerCandidateData*>(capsule.get_pointer());
@@ -87,20 +65,79 @@ register_trigger_candidate(py::module& m)
     .def_static("sizeof", [](){ return sizeof(TriggerCandidateData); })
     ;
 
+  py::enum_<TriggerCandidateData::Type>(trigger_candidate_data, "Type")
+    .value("kUnknown", TriggerCandidateData::Type::kUnknown)
+    .value("kTiming", TriggerCandidateData::Type::kTiming)
+    .value("kTPCLowE", TriggerCandidateData::Type::kTPCLowE)
+    .value("kSupernova", TriggerCandidateData::Type::kSupernova)
+    .value("kRandom", TriggerCandidateData::Type::kRandom)
+    .value("kPrescale", TriggerCandidateData::Type::kPrescale)
+    .value("kADCSimpleWindow", TriggerCandidateData::Type::kADCSimpleWindow)
+    .value("kHorizontalMuon", TriggerCandidateData::Type::kHorizontalMuon)
+    .value("kMichelElectron", TriggerCandidateData::Type::kMichelElectron)
+    .value("kPlaneCoincidence", TriggerCandidateData::Type::kPlaneCoincidence)
+    .value("kBundle", TriggerCandidateData::Type::kBundle)
+    .value("kChannelDistance", TriggerCandidateData::Type::kChannelDistance)
+    .value("kDBSCAN", TriggerCandidateData::Type::kDBSCAN)
+    .value("kCTBFakeTrigger", TriggerCandidateData::Type::kCTBFakeTrigger)
+    .value("kCTBBeam", TriggerCandidateData::Type::kCTBBeam)
+    .value("kCTBBeamChkvHL", TriggerCandidateData::Type::kCTBBeamChkvHL)
+    .value("kCTBCustomD", TriggerCandidateData::Type::kCTBCustomD)
+    .value("kCTBCustomE", TriggerCandidateData::Type::kCTBCustomE)
+    .value("kCTBCustomF", TriggerCandidateData::Type::kCTBCustomF)
+    .value("kCTBCustomG", TriggerCandidateData::Type::kCTBCustomG)
+    .value("kCTBBeamChkvHLx", TriggerCandidateData::Type::kCTBBeamChkvHLx)
+    .value("kCTBBeamChkvHxL", TriggerCandidateData::Type::kCTBBeamChkvHxL)
+    .value("kCTBBeamChkvHxLx", TriggerCandidateData::Type::kCTBBeamChkvHxLx)
+    .value("kNeutronSourceCalib", TriggerCandidateData::Type::kNeutronSourceCalib)
+    .value("kChannelAdjacency", TriggerCandidateData::Type::kChannelAdjacency)
+    .value("kCIBFakeTrigger", TriggerCandidateData::Type::kCIBFakeTrigger)
+    .value("kCIBLaserTriggerP1", TriggerCandidateData::Type::kCIBLaserTriggerP1)
+    .value("kCIBLaserTriggerP2", TriggerCandidateData::Type::kCIBLaserTriggerP2)
+    .value("kCIBLaserTriggerP3", TriggerCandidateData::Type::kCIBLaserTriggerP3)
+    .value("kCTBOffSpillSnapshot", TriggerCandidateData::Type::kCTBOffSpillSnapshot)
+    .value("kCTBOffSpillCosmicJura", TriggerCandidateData::Type::kCTBOffSpillCosmicJura)
+    .value("kCTBOffSpillCRTCosmic", TriggerCandidateData::Type::kCTBOffSpillCRTCosmic)
+    .value("kCTBCustomA", TriggerCandidateData::Type::kCTBCustomA)
+    .value("kCTBCustomB", TriggerCandidateData::Type::kCTBCustomB)
+    .value("kCTBCustomC", TriggerCandidateData::Type::kCTBCustomC)
+    .value("kCTBCustomPulseTrain", TriggerCandidateData::Type::kCTBCustomPulseTrain)
+    .value("kDTSPulser", TriggerCandidateData::Type::kDTSPulser)
+    .value("kDTSCosmic", TriggerCandidateData::Type::kDTSCosmic)
+    .value("kSSPLEDCalibration", TriggerCandidateData::Type::kSSPLEDCalibration);
+
+  py::enum_<TriggerCandidateData::Algorithm>(trigger_candidate_data, "Algorithm")
+    .value("kUnknown", TriggerCandidateData::Algorithm::kUnknown)
+    .value("kSupernova", TriggerCandidateData::Algorithm::kSupernova)
+    .value("kHSIEventToTriggerCandidate", TriggerCandidateData::Algorithm::kHSIEventToTriggerCandidate)
+    .value("kPrescale", TriggerCandidateData::Algorithm::kPrescale)
+    .value("kADCSimpleWindow", TriggerCandidateData::Algorithm::kADCSimpleWindow)
+    .value("kHorizontalMuon", TriggerCandidateData::Algorithm::kHorizontalMuon)
+    .value("kMichelElectron", TriggerCandidateData::Algorithm::kMichelElectron)
+    .value("kPlaneCoincidence", TriggerCandidateData::Algorithm::kPlaneCoincidence)
+    .value("kCustom", TriggerCandidateData::Algorithm::kCustom)
+    .value("kDBSCAN", TriggerCandidateData::Algorithm::kDBSCAN)
+    .value("kChannelDistance", TriggerCandidateData::Algorithm::kChannelDistance)
+    .value("kBundle", TriggerCandidateData::Algorithm::kBundle)
+    .value("kChannelAdjacency", TriggerCandidateData::Algorithm::kChannelAdjacency);
 
   py::class_<TriggerCandidate>(m, "TriggerCandidateOverlay", py::buffer_protocol())
-      .def(py::init())
       .def(py::init([](py::capsule capsule) {
         auto tp = *static_cast<TriggerCandidate*>(capsule.get_pointer());
         return tp;
 		  } ))
       .def_property_readonly("data", [](TriggerCandidate& self) -> TriggerCandidateData& {return self.data;})
       .def("__len__", [](TriggerCandidate& self){ return self.n_inputs; })
-      .def("sizeof", [](TriggerCandidate& self){ return sizeof(TriggerCandidate)+self.n_inputs*sizeof(TriggerPrimitive); })
+      .def("sizeof", [](TriggerCandidate& self){ return sizeof(TriggerCandidate)+self.n_inputs*sizeof(TriggerActivityData); })
     ;
 
 
     py::class_<TriggerCandidateHolder>(m, "TriggerCandidate", py::buffer_protocol())
+      .def(py::init([](py::capsule capsule) {
+           auto tc_ptr = static_cast<TriggerCandidate*>(capsule.get_pointer());
+           TriggerCandidateHolder tch(tc_ptr, sizeof(TriggerCandidate)+tc_ptr->n_inputs*sizeof(TriggerActivityData));
+           return tch;
+        }))
       .def(py::init([](py::bytes bytes){
           py::buffer_info info(py::buffer(bytes).request());
 
