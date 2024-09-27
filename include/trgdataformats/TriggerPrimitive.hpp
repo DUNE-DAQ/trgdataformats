@@ -56,17 +56,18 @@ struct TriggerPrimitive
   static constexpr version_t s_trigger_primitive_version = 1; // NOLINT(build/unsigned)
   
   version_t version = s_trigger_primitive_version; // NOLINT(build/unsigned)
-  timestamp_t time_start = INVALID_TIMESTAMP;
-  timestamp_t time_peak = INVALID_TIMESTAMP;
-  timestamp_t time_over_threshold = INVALID_TIMESTAMP;
+  Flags flag = 0;
+  detid_t detid = INVALID_DETID;
+  uint16_t adc_peak = { 0 };     // NOLINT(build/unsigned)
+
   channel_t channel = INVALID_CHANNEL;
   uint32_t adc_integral = { 0 }; // NOLINT(build/unsigned)
-  uint16_t adc_peak = { 0 };     // NOLINT(build/unsigned)
-  detid_t detid = INVALID_DETID;
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
 
-  Flags flag = 0;
+  timestamp_t time_start = INVALID_TIMESTAMP;
+  timestamp_t time_peak = INVALID_TIMESTAMP;
+  timestamp_t time_over_threshold = INVALID_TIMESTAMP;
 };
 
 /**
