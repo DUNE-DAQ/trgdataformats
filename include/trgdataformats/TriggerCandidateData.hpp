@@ -144,7 +144,7 @@ get_trigger_candidate_type_names()
 }
 
 inline int
-string_to_fragment_type_value(const std::string& name)
+string_to_trigger_candidate_type(const std::string& name)
 {
   for (auto& it : get_trigger_candidate_type_names()) {
     if (it.second == name)
