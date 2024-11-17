@@ -12,6 +12,7 @@
 #include "trgdataformats/TriggerActivityData.hpp"
 #include "trgdataformats/TriggerCandidateData.hpp"
 #include "trgdataformats/TriggerPrimitive.hpp"
+#include "trgdataformats/TriggerPrimitivePDS.hpp"
 
 namespace dunedaq::trgdataformats {
 
@@ -29,7 +30,7 @@ struct TriggerObjectOverlay
 };
 
 using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
-
+using TriggerActivityPDS = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitivePDS>;
 using TriggerCandidate = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
 
 } // namespace dunedaq::trgdataformats
