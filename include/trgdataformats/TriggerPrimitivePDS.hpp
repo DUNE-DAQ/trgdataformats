@@ -10,7 +10,6 @@
 #define TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERPRIMITIVEPDS_HPP_
 
 #include "trgdataformats/Types.hpp"
-#include "trgdataformats/TriggerPrimitive.hpp"
 
 //#include "fddetdataformats/DAPHNEFrame.hpp"
 
@@ -22,12 +21,43 @@
 
 namespace dunedaq::trgdataformats {
 
+
 /**
  * @brief A single energy deposition on a PDS channel
  */
-struct TriggerPrimitivePDS : TriggerPrimitive
+struct TriggerPrimitivePDS
 {	
-/* Herited members from TriggerPrimitive:
+  /**
+   * @brief The type of a TriggerPrimitive
+   */
+  enum class Type
+  {
+    kUnknown = 0,
+    kTPC = 1,
+    kPDS = 2,
+  };
+
+  /**
+   * @brief The algorithm used to form a TriggerPrimitive
+   */
+  enum class Algorithm
+  {
+    kUnknown = 0,
+    kSimpleThreshold = 1,
+    kAbsRunningSum = 2,
+    kRunningSum = 3
+  };
+
+  /**
+   * @brief A bitmask of flags from PrimitiveFlagsBits OR'ed together
+   *
+   * (a std::bitset<> would be nicer, but we don't have code to serialize it yet)
+   */
+  using Flags = uint16_t;
+
+  // Update this version number if there are any changes to the in-memory representation of this class!
+  static constexpr version_t s_trigger_primitive_version = 1; // NOLINT(build/unsigned)
+
   version_t version = s_trigger_primitive_version; // NOLINT(build/unsigned)
   timestamp_t time_start = INVALID_TIMESTAMP;
   timestamp_t time_peak = INVALID_TIMESTAMP;
@@ -39,12 +69,11 @@ struct TriggerPrimitivePDS : TriggerPrimitive
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
 
-*/
   uint8_t num_peak_ub=0; // # of peaks under the baseline
   uint8_t num_peak_ob=0; // # of peaks under the baseline
   
   TriggerPrimitivePDS(){
-    type = Type::kTPC;
+    type = Type::kPDS;
   }
   void set_channel(channel_t ch){channel=ch;}
   void set_num_peak_ub(uint8_t par) {num_peak_ub=par;}

@@ -60,6 +60,7 @@ struct TriggerCandidateData
     kDTSPulser = 36,
     kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
+    kPDSTimeClustering = 13
   };
 
   enum class Algorithm
@@ -77,6 +78,7 @@ struct TriggerCandidateData
     kChannelDistance = 10,
     kBundle = 11,
     kChannelAdjacency = 12,
+    kPDSTimeClustering = 13
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
