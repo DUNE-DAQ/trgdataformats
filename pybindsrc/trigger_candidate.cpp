@@ -42,6 +42,7 @@ register_trigger_candidate(py::module& m)
 {
 
   m.def("string_to_trigger_candidate_type", &trgdataformats::string_to_trigger_candidate_type);
+  m.def("trigger_candidate_type_to_string", &trgdataformats::trigger_candidate_type_to_string);
 
   py::class_<TriggerCandidateData> trigger_candidate_data(m, "TriggerCandidateData", py::buffer_protocol());
   trigger_candidate_data

@@ -153,6 +153,17 @@ string_to_trigger_candidate_type(const std::string& name)
   return static_cast<int>(TriggerCandidateData::Type::kUnknown);
 }
 
+inline std::string
+trigger_candidate_type_to_string(const TriggerCandidateData::Type& type)
+{
+  try {
+    return get_trigger_candidate_type_names().at(type);
+  }
+  catch(std::exception &e) {
+  }
+  return "kUnknown";
+}
+
 } // namespace dunedaq::trgdataformats
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERCANDIDATEDATA_HPP_

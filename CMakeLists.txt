@@ -18,7 +18,8 @@ daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME} )
 
 ##############################################################################
 
-daq_add_unit_test(Trgdataformats_test LINK_LIBRARIES) 
+daq_add_unit_test(Trgdataformats_test LINK_LIBRARIES)
+daq_add_unit_test(TriggerCandidateData_test LINK_LIBRARIES)
 
 ##############################################################################
 
