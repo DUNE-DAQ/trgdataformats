@@ -32,6 +32,7 @@ struct TriggerObjectOverlay
 using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
 using TriggerActivityPDS = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitivePDS>;
 using TriggerCandidate = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
+using TriggerCandidatePDS = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
 
 } // namespace dunedaq::trgdataformats
 
