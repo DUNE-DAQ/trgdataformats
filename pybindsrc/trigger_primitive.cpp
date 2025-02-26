@@ -35,22 +35,9 @@ register_trigger_primitive(py::module& m)
     .def_property_readonly("adc_integral", [](TriggerPrimitive& self) -> uint32_t {return self.adc_integral;})
     .def_property_readonly("adc_peak", [](TriggerPrimitive& self) -> uint32_t {return self.adc_peak;})
     .def_property_readonly("detid", [](TriggerPrimitive& self) -> uint16_t {return self.detid;})
-    .def_property_readonly("type", [](TriggerPrimitive& self) -> TriggerPrimitive::Type {return self.type;})
-    .def_property_readonly("algorithm", [](TriggerPrimitive& self) -> TriggerPrimitive::Algorithm {return self.algorithm;})
     .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint16_t {return self.flag;})
     .def_static("sizeof", [](){ return sizeof(TriggerPrimitive); })
     ;
-
-  py::enum_<TriggerPrimitive::Type>(trigger_primitive, "Type")
-    .value("kUnknown", TriggerPrimitive::Type::kUnknown)
-    .value("kTPC", TriggerPrimitive::Type::kTPC)
-    .value("kPDS", TriggerPrimitive::Type::kPDS);
-
-  py::enum_<TriggerPrimitive::Algorithm>(trigger_primitive, "Algorithm")
-    .value("kUnknown", TriggerPrimitive::Algorithm::kUnknown)
-    .value("kSimpleThreshold", TriggerPrimitive::Algorithm::kSimpleThreshold)
-    .value("kAbsRunningSum", TriggerPrimitive::Algorithm::kAbsRunningSum)
-    .value("kRunningSum", TriggerPrimitive::Algorithm::kRunningSum);
 
 }
 
