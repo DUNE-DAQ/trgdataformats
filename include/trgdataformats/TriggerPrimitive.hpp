@@ -25,11 +25,21 @@ namespace dunedaq::trgdataformats {
 struct TriggerPrimitive
 {
   static constexpr uint8_t s_trigger_primitive_version = 2;
-  uint64_t version : 8 = s_trigger_primitive_version, flag : 8 = 0, detid : 8; // 24 out of 64 bits.
 
-  uint64_t channel : 24, time_peak : 16;  // Locations. Fills the remaining bits.
+  // Metadata.
+  uint64_t version : 8 = s_trigger_primitive_version;
+  uint64_t flag : 8 = 0;
+  uint64_t detid : 8;
+
+  // Physics data.
+  uint64_t channel : 24;
+
   uint64_t time_start : 64;
-  uint64_t time_over_threshold : 16, adc_integral : 32, adc_peak : 16;
+  uint64_t time_peak : 16;
+  uint64_t time_over_threshold : 16;
+
+  uint64_t adc_integral : 32;
+  uint64_t adc_peak : 16;
 };
 
 } // namespace dunedaq::trgdataformats
