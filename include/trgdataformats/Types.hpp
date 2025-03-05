@@ -45,9 +45,11 @@ using trigger_number_t = uint64_t;
 constexpr trigger_number_t INVALID_TRIGGER_NUMBER = std::numeric_limits<trigger_number_t>::max();
 
 // A channel number
-using channel_t = int32_t;
+using channel_t = uint32_t;
 
 constexpr channel_t INVALID_CHANNEL = std::numeric_limits<channel_t>::max();
+
+using channel_diff_t = int32_t;
 
 // A version number of an object
 using version_t = uint16_t;
