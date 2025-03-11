@@ -29,7 +29,7 @@ using timestamp_diff_t = int64_t;
 // TODO P. Rodrigues 2021-06-01: it would be nice to have this be just
 // daqdataformats::GeoID, if/when we can depend on the daqdataformats
 // package
-using detid_t = uint16_t;
+using detid_t = uint8_t;
 
 constexpr detid_t INVALID_DETID = std::numeric_limits<detid_t>::max();
 
@@ -52,7 +52,7 @@ constexpr channel_t INVALID_CHANNEL = std::numeric_limits<channel_t>::max();
 using channel_diff_t = int32_t;
 
 // A version number of an object
-using version_t = uint16_t;
+using version_t = uint8_t;
 
 constexpr version_t INVALID_VERSION = std::numeric_limits<version_t>::max();
 
