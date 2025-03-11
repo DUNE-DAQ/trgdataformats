@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
+#include <limits>
 #include <type_traits>
 
 namespace dunedaq::trgdataformats {
@@ -29,17 +30,17 @@ struct TriggerPrimitive
   // Metadata.
   uint64_t version : 8 = s_trigger_primitive_version;
   uint64_t flag : 8 = 0;
-  uint64_t detid : 8;
+  uint64_t detid : 8 = std::numeric_limits<uint8_t>::max();
 
   // Physics data.
-  uint64_t channel : 24;
+  uint64_t channel : 24 = (1 << 24) - 1;  // Requires an awkward limit definition.
 
-  uint64_t time_start : 64;
-  uint64_t time_peak : 16;
-  uint64_t time_over_threshold : 16;
+  uint64_t time_start : 64 = std::numeric_limits<uint64_t>::max();
+  uint64_t time_peak : 16 = std::numeric_limits<uint16_t>::max();
+  uint64_t time_over_threshold : 16 = std::numeric_limits<uint16_t>::max();
 
-  uint64_t adc_integral : 32;
-  uint64_t adc_peak : 16;
+  uint64_t adc_integral : 32 = std::numeric_limits<uint32_t>::max();
+  uint64_t adc_peak : 16 = std::numeric_limits<uint16_t>::max();
 };
 
 } // namespace dunedaq::trgdataformats
