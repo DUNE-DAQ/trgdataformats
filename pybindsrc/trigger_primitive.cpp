@@ -37,6 +37,7 @@ register_trigger_primitive(py::module& m)
     .def_property_readonly("detid", [](TriggerPrimitive& self) -> uint8_t {return self.detid;})
     .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint8_t {return self.flag;})
     .def_static("sizeof", [](){ return sizeof(TriggerPrimitive); })
+    .def("get_current_version", &TriggerPrimitive::get_current_version)
     ;
 
 }

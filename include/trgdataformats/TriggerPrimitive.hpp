@@ -41,6 +41,8 @@ struct TriggerPrimitive
 
   uint64_t adc_integral : 32 = std::numeric_limits<uint32_t>::max();
   uint64_t adc_peak : 16 = std::numeric_limits<uint16_t>::max();
+
+  uint8_t get_current_version() {return s_trigger_primitive_version;}
 };
 
 } // namespace dunedaq::trgdataformats
