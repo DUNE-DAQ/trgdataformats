@@ -83,9 +83,6 @@ struct TriggerCandidateData
   static constexpr version_t s_trigger_candidate_version = 2; // NOLINT(build/unsigned)
 
   version_t version = s_trigger_candidate_version; // NOLINT(build/unsigned)
-  timestamp_t time_start = INVALID_TIMESTAMP;
-  timestamp_t time_end = INVALID_TIMESTAMP;
-  timestamp_t time_candidate = INVALID_TIMESTAMP;
   // TODO P. Rodrigues 2021-01-06: This was originally a
   // std::vector<detid_t> but that messes up the overlay scheme, so
   // I've changed it for now to be just a detid_t. Need to work out
@@ -93,6 +90,9 @@ struct TriggerCandidateData
   detid_t detid; // NOLINT(build/unsigned)
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
+  timestamp_t time_start = INVALID_TIMESTAMP;
+  timestamp_t time_end = INVALID_TIMESTAMP;
+  timestamp_t time_candidate = INVALID_TIMESTAMP;
 };
 
 // This map needs to be updated for each new TC type, as this is used when configuring Trigger Bitwords, affecting
