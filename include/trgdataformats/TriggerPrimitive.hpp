@@ -35,9 +35,9 @@ struct TriggerPrimitive
   // Physics data.
   uint64_t channel : 24 = (1 << 24) - 1;  // Requires an awkward limit definition.
 
+  uint64_t time_over_threshold : 16 = std::numeric_limits<uint16_t>::max();
   uint64_t time_start : 64 = INVALID_TIMESTAMP;
   uint64_t time_peak : 16 = std::numeric_limits<uint16_t>::max();
-  uint64_t time_over_threshold : 16 = std::numeric_limits<uint16_t>::max();
 
   uint64_t adc_integral : 32 = std::numeric_limits<uint32_t>::max();
   uint64_t adc_peak : 16 = std::numeric_limits<uint16_t>::max();
