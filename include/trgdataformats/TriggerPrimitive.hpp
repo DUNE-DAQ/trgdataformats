@@ -37,7 +37,7 @@ struct TriggerPrimitive
 
   uint64_t samples_over_threshold : 16 = std::numeric_limits<uint16_t>::max();
   uint64_t time_start : 64 = INVALID_TIMESTAMP;
-  uint64_t time_peak : 16 = std::numeric_limits<uint16_t>::max();
+  uint64_t samples_to_peak : 16 = std::numeric_limits<uint16_t>::max();
 
   uint64_t adc_integral : 32 = std::numeric_limits<uint32_t>::max();
   uint64_t adc_peak : 16 = std::numeric_limits<uint16_t>::max();
