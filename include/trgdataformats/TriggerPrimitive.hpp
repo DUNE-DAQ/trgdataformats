@@ -33,14 +33,14 @@ struct TriggerPrimitive
   uint64_t detid : 8 = INVALID_DETID;
 
   // Physics data.
-  uint64_t channel : 24 = (1 << 24) - 1;  // Requires an awkward limit definition.
+  uint64_t channel : 24 = INVALID_TP_CHANNEL;
 
-  uint64_t samples_over_threshold : 16 = std::numeric_limits<uint16_t>::max();
+  uint64_t samples_over_threshold : 16 = INVALID_SAMPLES_OVER_THRESHOLD;
   uint64_t time_start : 64 = INVALID_TIMESTAMP;
-  uint64_t samples_to_peak : 16 = std::numeric_limits<uint16_t>::max();
+  uint64_t samples_to_peak : 16 = INVALID_SAMPLES_TO_PEAK;
 
-  uint64_t adc_integral : 32 = std::numeric_limits<uint32_t>::max();
-  uint64_t adc_peak : 16 = std::numeric_limits<uint16_t>::max();
+  uint64_t adc_integral : 32 = 0;
+  uint64_t adc_peak : 16 = 0;
 };
 
 } // namespace dunedaq::trgdataformats
