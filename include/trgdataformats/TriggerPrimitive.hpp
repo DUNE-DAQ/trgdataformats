@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
+#include <limits>
 #include <type_traits>
 
 namespace dunedaq::trgdataformats {
@@ -24,92 +25,36 @@ namespace dunedaq::trgdataformats {
  */
 struct TriggerPrimitive
 {
-  /**
-   * @brief The type of a TriggerPrimitive
-   */
-  enum class Type
-  {
-    kUnknown = 0,
-    kTPC = 1,
-    kPDS = 2,
-  };
+  static constexpr uint8_t s_trigger_primitive_version = 2;
 
-  /**
-   * @brief The algorithm used to form a TriggerPrimitive
-   */
-  enum class Algorithm
-  {
-    kUnknown = 0,
-    kSimpleThreshold = 1,
-    kAbsRunningSum = 2,
-    kRunningSum = 3
-  };
+  // Metadata.
+  uint64_t version : 8;
+  uint64_t flag : 8;
+  uint64_t detid : 8;
 
-  /**
-   * @brief A bitmask of flags from PrimitiveFlagsBits OR'ed together
-   *
-   * (a std::bitset<> would be nicer, but we don't have code to serialize it yet)
-   */
-  using Flags = uint16_t;
+  // Physics data.
+  uint64_t channel : 24;
 
-  // Update this version number if there are any changes to the in-memory representation of this class!
-  static constexpr version_t s_trigger_primitive_version = 1; // NOLINT(build/unsigned)
-  
-  version_t version = s_trigger_primitive_version; // NOLINT(build/unsigned)
-  timestamp_t time_start = INVALID_TIMESTAMP;
-  timestamp_t time_peak = INVALID_TIMESTAMP;
-  timestamp_t time_over_threshold = INVALID_TIMESTAMP;
-  channel_t channel = INVALID_CHANNEL;
-  uint32_t adc_integral = { 0 }; // NOLINT(build/unsigned)
-  uint16_t adc_peak = { 0 };     // NOLINT(build/unsigned)
-  detid_t detid = INVALID_DETID;
-  Type type = Type::kUnknown;
-  Algorithm algorithm = Algorithm::kUnknown;
+  uint64_t samples_over_threshold : 16;
+  uint64_t time_start : 64;
+  uint64_t samples_to_peak : 16;
 
-  Flags flag = 0;
+  uint64_t adc_integral : 32;
+  uint64_t adc_peak : 16;
+
+  TriggerPrimitive()
+    : version(s_trigger_primitive_version)
+    , flag(0)
+    , detid(INVALID_DETID)
+    , channel(INVALID_TP_CHANNEL)
+    , samples_over_threshold(INVALID_SAMPLES_OVER_THRESHOLD)
+    , time_start(INVALID_TIMESTAMP)
+    , samples_to_peak(INVALID_SAMPLES_TO_PEAK)
+    , adc_integral(0)
+    , adc_peak(0)
+  {}
 };
 
-/**
- * Names for each of the bits in the TriggerPrimitive Flags
- */
-namespace FlagBits {
-using Flags = TriggerPrimitive::Flags;
-
-constexpr Flags kSomehowBad = static_cast<Flags>(1) << 0;
-constexpr Flags kUnassigned1 = static_cast<Flags>(1) << 1;
-constexpr Flags kUnassigned2 = static_cast<Flags>(1) << 2;
-constexpr Flags kUnassigned3 = static_cast<Flags>(1) << 3;
-constexpr Flags kUnassigned4 = static_cast<Flags>(1) << 4;
-constexpr Flags kUnassigned5 = static_cast<Flags>(1) << 5;
-constexpr Flags kUnassigned6 = static_cast<Flags>(1) << 6;
-constexpr Flags kUnassigned7 = static_cast<Flags>(1) << 7;
-constexpr Flags kUnassigned8 = static_cast<Flags>(1) << 8;
-constexpr Flags kUnassigned9 = static_cast<Flags>(1) << 9;
-constexpr Flags kUnassigned10 = static_cast<Flags>(1) << 10;
-constexpr Flags kUnassigned11 = static_cast<Flags>(1) << 11;
-constexpr Flags kUnassigned12 = static_cast<Flags>(1) << 12;
-constexpr Flags kUnassigned13 = static_cast<Flags>(1) << 13;
-constexpr Flags kUnassigned14 = static_cast<Flags>(1) << 14;
-constexpr Flags kUnassigned15 = static_cast<Flags>(1) << 15;
-
-}
-
-inline std::istream&
-operator>>(std::istream& is, TriggerPrimitive::Type& t)
-{
-  std::underlying_type<TriggerPrimitive::Type>::type tmp;
-  is >> tmp;
-  t = static_cast<TriggerPrimitive::Type>(tmp);
-  return is;
-}
-
-inline std::ostream&
-operator<<(std::ostream& os, const TriggerPrimitive::Type& t)
-{
-  using underlying_t = std::underlying_type<TriggerPrimitive::Type>::type;
-  return os << static_cast<underlying_t>(t);
-}
-
-} // namespace dunedaq::trgdataformats 
+} // namespace dunedaq::trgdataformats
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERPRIMITIVE_HPP_

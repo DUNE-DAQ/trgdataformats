@@ -23,13 +23,17 @@ constexpr timestamp_t INVALID_TIMESTAMP = std::numeric_limits<timestamp_t>::max(
 
 using timestamp_diff_t = int64_t;
 
+constexpr uint16_t INVALID_SAMPLES_OVER_THRESHOLD = std::numeric_limits<uint16_t>::max();
+
+constexpr uint16_t INVALID_SAMPLES_TO_PEAK = std::numeric_limits<uint16_t>::max();
+
 // A logical region of the detector from which DS objects may be
 // formed, eg an APA or a module
 //
 // TODO P. Rodrigues 2021-06-01: it would be nice to have this be just
 // daqdataformats::GeoID, if/when we can depend on the daqdataformats
 // package
-using detid_t = uint16_t;
+using detid_t = uint8_t;
 
 constexpr detid_t INVALID_DETID = std::numeric_limits<detid_t>::max();
 
@@ -45,12 +49,17 @@ using trigger_number_t = uint64_t;
 constexpr trigger_number_t INVALID_TRIGGER_NUMBER = std::numeric_limits<trigger_number_t>::max();
 
 // A channel number
-using channel_t = int32_t;
+using channel_t = uint32_t;
 
 constexpr channel_t INVALID_CHANNEL = std::numeric_limits<channel_t>::max();
 
+// TP channel limit is at 24 b.
+constexpr uint32_t INVALID_TP_CHANNEL = 0xFFFFFF;
+
+using channel_diff_t = int32_t;
+
 // A version number of an object
-using version_t = uint16_t;
+using version_t = uint8_t;
 
 constexpr version_t INVALID_VERSION = std::numeric_limits<version_t>::max();
 

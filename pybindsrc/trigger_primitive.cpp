@@ -27,30 +27,18 @@ register_trigger_primitive(py::module& m)
         auto tp = *static_cast<TriggerPrimitive*>(capsule.get_pointer());
         return tp;
 		  } ))
-    .def_property_readonly("version", [](TriggerPrimitive& self) -> uint16_t {return self.version;})
+    .def_property_readonly_static("s_trigger_primitive_version", [](py::object /*self*/) {return TriggerPrimitive::s_trigger_primitive_version;})
+    .def_property_readonly("version", [](TriggerPrimitive& self) -> uint8_t {return self.version;})
     .def_property_readonly("time_start", [](TriggerPrimitive& self) -> uint64_t {return self.time_start;})
-    .def_property_readonly("time_peak", [](TriggerPrimitive& self) -> uint64_t {return self.time_peak;})
-    .def_property_readonly("time_over_threshold", [](TriggerPrimitive& self) -> uint64_t {return self.time_over_threshold;})
-    .def_property_readonly("channel", [](TriggerPrimitive& self) -> int32_t {return self.channel;})
+    .def_property_readonly("samples_to_peak", [](TriggerPrimitive& self) -> uint16_t {return self.samples_to_peak;})
+    .def_property_readonly("samples_over_threshold", [](TriggerPrimitive& self) -> uint16_t {return self.samples_over_threshold;})
+    .def_property_readonly("channel", [](TriggerPrimitive& self) -> uint32_t {return uint32_t(self.channel);})
     .def_property_readonly("adc_integral", [](TriggerPrimitive& self) -> uint32_t {return self.adc_integral;})
-    .def_property_readonly("adc_peak", [](TriggerPrimitive& self) -> uint32_t {return self.adc_peak;})
-    .def_property_readonly("detid", [](TriggerPrimitive& self) -> uint16_t {return self.detid;})
-    .def_property_readonly("type", [](TriggerPrimitive& self) -> TriggerPrimitive::Type {return self.type;})
-    .def_property_readonly("algorithm", [](TriggerPrimitive& self) -> TriggerPrimitive::Algorithm {return self.algorithm;})
-    .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint16_t {return self.flag;})
+    .def_property_readonly("adc_peak", [](TriggerPrimitive& self) -> uint16_t {return self.adc_peak;})
+    .def_property_readonly("detid", [](TriggerPrimitive& self) -> uint8_t {return self.detid;})
+    .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint8_t {return self.flag;})
     .def_static("sizeof", [](){ return sizeof(TriggerPrimitive); })
     ;
-
-  py::enum_<TriggerPrimitive::Type>(trigger_primitive, "Type")
-    .value("kUnknown", TriggerPrimitive::Type::kUnknown)
-    .value("kTPC", TriggerPrimitive::Type::kTPC)
-    .value("kPDS", TriggerPrimitive::Type::kPDS);
-
-  py::enum_<TriggerPrimitive::Algorithm>(trigger_primitive, "Algorithm")
-    .value("kUnknown", TriggerPrimitive::Algorithm::kUnknown)
-    .value("kSimpleThreshold", TriggerPrimitive::Algorithm::kSimpleThreshold)
-    .value("kAbsRunningSum", TriggerPrimitive::Algorithm::kAbsRunningSum)
-    .value("kRunningSum", TriggerPrimitive::Algorithm::kRunningSum);
 
 }
 
