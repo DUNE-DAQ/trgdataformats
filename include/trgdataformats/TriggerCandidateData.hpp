@@ -37,7 +37,7 @@ struct TriggerCandidateData
     kCTBFakeTrigger = 13,
     kCTBBeam = 14,
     kCTBBeamChkvHL = 15,
-    kCTBCustomD = 16,
+    kCTBBeamSpillSnapshot = 16,
     kCTBCustomE = 17,
     kCTBCustomF = 18,
     kCTBCustomG = 19,
