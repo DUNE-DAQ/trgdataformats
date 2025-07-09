@@ -53,7 +53,7 @@ struct TriggerCandidateData
     kCTBOffSpillSnapshot = 29,
     kCTBOffSpillCosmicJura = 30,
     kCTBOffSpillCRTCosmic= 31,
-    kCTBCustomA = 32,
+    kCTBBeamSpillCounter = 32,
     kCTBCustomB = 33,
     kCTBCustomC = 34,
     kCTBCustomPulseTrain = 35,
