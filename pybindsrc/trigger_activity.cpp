@@ -87,7 +87,8 @@ register_trigger_activity(py::module& m)
     .value("kPlaneCoincidence", TriggerActivityData::Algorithm::kPlaneCoincidence)
     .value("kBundle", TriggerActivityData::Algorithm::kBundle)
     .value("kChannelDistance", TriggerActivityData::Algorithm::kChannelDistance)
-    .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency);
+    .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency)
+    .value("kSWIFT", TriggerActivityData::Algorithm::kSWIFT);
 
   py::class_<TriggerActivity>(m, "TriggerActivityOverlay", py::buffer_protocol())
       .def(py::init())
