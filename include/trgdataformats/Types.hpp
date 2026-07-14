@@ -56,4 +56,6 @@ struct TypeDefaults
   
 } // namespace dunedaq::trgdataformats
 
+static_assert(dunedaq::trgdataformats::g_whole_detector != dunedaq::trgdataformats::TypeDefaults::s_invalid_detid);
+
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TYPES_HPP_
