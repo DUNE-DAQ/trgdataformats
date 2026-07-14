@@ -41,18 +41,19 @@ struct TriggerActivityData
 
   // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_activity_version = 2; // NOLINT(build/unsigned)
+  static constexpr channel_t s_invalid_channel = std::numeric_limits<channel_t>::max();
   
   version_t version = s_trigger_activity_version; // NOLINT(build/unsigned)
-  timestamp_t time_start = INVALID_TIMESTAMP;
-  timestamp_t time_end = INVALID_TIMESTAMP;
-  timestamp_t time_peak = INVALID_TIMESTAMP;
-  timestamp_t time_activity = INVALID_TIMESTAMP;
-  channel_t channel_start = INVALID_CHANNEL; // NOLINT(build/unsigned)
-  channel_t channel_end = INVALID_CHANNEL;   // NOLINT(build/unsigned)
-  channel_t channel_peak = INVALID_CHANNEL;  // NOLINT(build/unsigned)
+  timestamp_t time_start = TypeDefaults::s_invalid_timestamp;
+  timestamp_t time_end = TypeDefaults::s_invalid_timestamp;
+  timestamp_t time_peak = TypeDefaults::s_invalid_timestamp;
+  timestamp_t time_activity = TypeDefaults::s_invalid_timestamp;
+  channel_t channel_start = s_invalid_channel; // NOLINT(build/unsigned)
+  channel_t channel_end = s_invalid_channel;   // NOLINT(build/unsigned)
+  channel_t channel_peak = s_invalid_channel;  // NOLINT(build/unsigned)
   uint64_t adc_integral = 0;                 // NOLINT(build/unsigned)
   uint16_t adc_peak = 0;                     // NOLINT(build/unsigned)
-  detid_t detid = INVALID_DETID;             // NOLINT(build/unsigned)
+  detid_t detid = TypeDefaults::s_invalid_detid; // NOLINT(build/unsigned)
   Type type = Type::kUnknown;                // NOLINT(build/unsigned)
   Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
 };
