@@ -12,12 +12,14 @@
 #include <cstdint>
 #include <limits>
 
+// NOLINTBEGIN(build/unsigned)
+
 namespace dunedaq::trgdataformats {
 
 // A data timestamp in timing system clock ticks (50 MHz for
 // ProtoDUNE-I, 62.5 MHz for ProtoDUNE-II and DUNE FD). If/when we
 // depend on daqdataformats, we can get these from there
-using timestamp_t = uint64_t; // NOLINT
+using timestamp_t = uint64_t;
 using timestamp_diff_t = int64_t;
 
 // A logical region of the detector from which DS objects may be
@@ -28,7 +30,6 @@ using timestamp_diff_t = int64_t;
 // package
 using detid_t = uint8_t;
 
-// A trigger number
 // TODO P. Rodrigues 2021-06-14: it would be nice to have this be just
 // daqdataformats::trigger_number_t, if/when we can depend on the daqdataformats
 // package
@@ -38,10 +39,7 @@ using trigger_number_t = uint64_t;
 using channel_t = uint32_t;
 using channel_diff_t = int32_t;
 
-  // A version number of an object
 using version_t = uint8_t;
-
-//constexpr version_t INVALID_VERSION = std::numeric_limits<version_t>::max();
 
 struct TypeDefaults
 {
@@ -57,5 +55,7 @@ struct TypeDefaults
 } // namespace dunedaq::trgdataformats
 
 static_assert(dunedaq::trgdataformats::g_whole_detector != dunedaq::trgdataformats::TypeDefaults::s_invalid_detid);
+
+// NOLINTEND(build/unsigned)
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TYPES_HPP_

@@ -14,6 +14,8 @@
 
 namespace py = pybind11;
 
+// NOLINTBEGIN(build/unsigned)
+
 namespace dunedaq {
 namespace trgdataformats {
 namespace python {
@@ -139,3 +141,5 @@ register_trigger_activity(py::module& m)
 } // namespace python
 } // namespace trgdataformats
 } // namespace dunedaq
+
+// NOLINTEND(build/unsigned)

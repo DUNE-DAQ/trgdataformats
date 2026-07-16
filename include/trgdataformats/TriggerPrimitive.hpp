@@ -18,6 +18,8 @@
 #include <limits>
 #include <type_traits>
 
+// NOLINTBEGIN(build/unsigned)
+
 namespace dunedaq::trgdataformats {
 
 /**
@@ -59,5 +61,7 @@ struct TriggerPrimitive
 };
 
 } // namespace dunedaq::trgdataformats
+
+// NOLINTEND(build/unsigned)
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERPRIMITIVE_HPP_

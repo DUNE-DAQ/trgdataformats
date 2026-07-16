@@ -80,9 +80,9 @@ struct TriggerCandidateData
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
-  static constexpr version_t s_trigger_candidate_version = 3; // NOLINT(build/unsigned)
+  static constexpr version_t s_trigger_candidate_version = 3;
 
-  version_t version = s_trigger_candidate_version; // NOLINT(build/unsigned)
+  version_t version = s_trigger_candidate_version;
   timestamp_t time_start = TypeDefaults::s_invalid_timestamp;
   timestamp_t time_end = TypeDefaults::s_invalid_timestamp;
   timestamp_t time_candidate = TypeDefaults::s_invalid_timestamp;
@@ -90,9 +90,9 @@ struct TriggerCandidateData
   // std::vector<detid_t> but that messes up the overlay scheme, so
   // I've changed it for now to be just a detid_t. Need to work out
   // what to do longer term
-  detid_t detid; // NOLINT(build/unsigned)
+  detid_t detid;
   Type type = Type::kUnknown;
-  Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
+  Algorithm algorithm = Algorithm::kUnknown;
 };
 
 // This map needs to be updated for each new TC type, as this is used when configuring Trigger Bitwords, affecting
@@ -100,7 +100,7 @@ struct TriggerCandidateData
 inline std::map<TriggerCandidateData::Type, std::string>
 get_trigger_candidate_type_names()
 {
-  return {
+  static const std::map<TriggerCandidateData::Type, std::string> map {
     { TriggerCandidateData::Type::kUnknown, "kUnknown" },
     { TriggerCandidateData::Type::kTiming, "kTiming" },
     { TriggerCandidateData::Type::kTPCLowE, "kTPCLowE" },
@@ -141,6 +141,8 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
     { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
   };
+  
+  return map;
 }
 
 inline int
@@ -156,14 +158,19 @@ string_to_trigger_candidate_type(const std::string& name)
 inline std::string
 trigger_candidate_type_to_string(const TriggerCandidateData::Type& type)
 {
-  try {
-    return get_trigger_candidate_type_names().at(type);
-  }
-  catch(std::exception &e) {
-  }
-  return "kUnknown";
+  const auto& map { get_trigger_candidate_type_names() };
+  auto elem { map.find(type) };
+
+  return elem != map.end() ? elem->second : "kUnknown";
 }
 
 } // namespace dunedaq::trgdataformats
+
+// This static_assert is meant to alert the developer to bump the
+// version if variables are added or removed
+static_assert(
+	      dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3 &&
+	      sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48
+	      );
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERCANDIDATEDATA_HPP_

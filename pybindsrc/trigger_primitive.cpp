@@ -11,6 +11,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+// NOLINTBEGIN(build/unsigned)
+
 namespace py = pybind11;
 
 namespace dunedaq::trgdataformats::python {
@@ -43,3 +45,5 @@ register_trigger_primitive(py::module& m)
 }
 
 } // namespace dunedaq::trgdataformats::python
+
+// NOLINTEND(build/unsigned)
