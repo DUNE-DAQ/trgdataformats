@@ -1,5 +1,5 @@
 /**
- * @file TriggerCandidate.hpp
+ * @file TriggerCandidateData.hpp
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
@@ -19,7 +19,7 @@ namespace dunedaq::trgdataformats {
 
 struct TriggerCandidateData
 {
-  enum class Type
+  enum class Type : int
   {
     kUnknown = 0,
     kTiming = 1,
@@ -62,7 +62,7 @@ struct TriggerCandidateData
     kSSPLEDCalibration = 38,
   };
 
-  enum class Algorithm
+  enum class Algorithm : int
   {
     kUnknown = 0,
     kSupernova = 1,
@@ -145,14 +145,14 @@ get_trigger_candidate_type_names()
   return map;
 }
 
-inline int
+inline TriggerCandidateData::Type
 string_to_trigger_candidate_type(const std::string& name)
 {
   for (auto& it : get_trigger_candidate_type_names()) {
     if (it.second == name)
-      return static_cast<int>(it.first);
+      return it.first;
   }
-  return static_cast<int>(TriggerCandidateData::Type::kUnknown);
+  return TriggerCandidateData::Type::kUnknown;
 }
 
 inline std::string
@@ -167,7 +167,7 @@ trigger_candidate_type_to_string(const TriggerCandidateData::Type& type)
 } // namespace dunedaq::trgdataformats
 
 // This static_assert is meant to alert the developer to bump the
-// version if variables are added or removed
+// version if variables are added or removed in TriggerCandidateData
 static_assert(
 	      dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3 &&
 	      sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48

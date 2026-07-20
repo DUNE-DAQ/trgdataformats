@@ -16,14 +16,14 @@ namespace dunedaq::trgdataformats {
 
 struct TriggerActivityData
 {
-  enum class Type
+  enum class Type : int
   {
     kUnknown = 0,
     kTPC = 1,
     kPDS = 2,
   };
 
-  enum class Algorithm
+  enum class Algorithm : int
   {
     kUnknown = 0,
     kSupernova = 1,
@@ -42,7 +42,7 @@ struct TriggerActivityData
   // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_activity_version = 2;
   static constexpr channel_t s_invalid_channel = std::numeric_limits<channel_t>::max();
-  
+
   version_t version = s_trigger_activity_version;
   timestamp_t time_start = TypeDefaults::s_invalid_timestamp;
   timestamp_t time_end = TypeDefaults::s_invalid_timestamp;

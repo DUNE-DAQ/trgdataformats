@@ -31,6 +31,7 @@ struct TriggerPrimitive
   static constexpr uint16_t s_invalid_samples_over_threshold = std::numeric_limits<uint16_t>::max();
   static constexpr uint16_t s_invalid_samples_to_peak = std::numeric_limits<uint16_t>::max();
   static constexpr channel_t s_invalid_tp_channel = 0xFFFFFF; // TP channel limit is at 24 b
+  static constexpr std::size_t s_expected_bytes = 24;
   
   // Metadata.
   uint64_t version : 8;
@@ -60,6 +61,15 @@ struct TriggerPrimitive
   {}
 };
 
+// Basic checks that the bits are arranged as we hope they're arranged
+static_assert(sizeof(TriggerPrimitive) == TriggerPrimitive::s_expected_bytes);
+
+static_assert(std::endian::native == std::endian::little,
+              "The TriggerPrimitive bitfield layout assumes little-endian architecture");
+
+static_assert(std::is_standard_layout_v<TriggerPrimitive>);
+static_asset(std::is_trivially_copyable_v<TriggerPrimitive>);
+  
 } // namespace dunedaq::trgdataformats
 
 // NOLINTEND(build/unsigned)

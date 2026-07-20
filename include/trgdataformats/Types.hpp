@@ -16,9 +16,20 @@
 
 namespace dunedaq::trgdataformats {
 
-// A data timestamp in timing system clock ticks (50 MHz for
-// ProtoDUNE-I, 62.5 MHz for ProtoDUNE-II and DUNE FD). If/when we
-// depend on daqdataformats, we can get these from there
+// TODO John Freeman (jcfree@fnal.gov), Jul-16-2026
+
+// In the next month, determine if we can get enough buy in to add
+// dependence on the relevant headers from daqdataformats, which will
+// address Phil Rodrigues's concerns from five years ago. There's some
+// hope for this to the extent Tom Junk emailed me in the spring
+// saying this wouldn't be a problem.
+
+
+  
+// timestamp_t represents a data timestamp in timing system clock
+// ticks (50 MHz for ProtoDUNE-I, 62.5 MHz for ProtoDUNE-II and DUNE
+// FD). If/when we depend on daqdataformats, we can get these from
+// there
 using timestamp_t = uint64_t;
 using timestamp_diff_t = int64_t;
 
@@ -28,6 +39,7 @@ using timestamp_diff_t = int64_t;
 // TODO P. Rodrigues 2021-06-01: it would be nice to have this be just
 // daqdataformats::GeoID, if/when we can depend on the daqdataformats
 // package
+  
 using detid_t = uint8_t;
 
 // TODO P. Rodrigues 2021-06-14: it would be nice to have this be just
@@ -35,7 +47,7 @@ using detid_t = uint8_t;
 // package
 using trigger_number_t = uint64_t;
 
-// A channel number
+
 using channel_t = uint32_t;
 using channel_diff_t = int32_t;
 
