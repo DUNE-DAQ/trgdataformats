@@ -59,6 +59,20 @@ struct TriggerPrimitive
     , adc_integral(0)
     , adc_peak(0)
   {}
+
+  timestamp_t get_timestamp() const
+  {
+    return time_start;
+  }
+
+  void set_timestamp(timestamp_t ts)
+  {
+    time_start = ts;
+  }
+
+  bool operator<(const TriggerPrimitive& other) const {
+    return std::tie(time_start, channel) < std::tie(other.time_start, other.channel);
+  }
 };
 
 // Basic checks that the bits are arranged as we hope they're arranged
@@ -69,7 +83,7 @@ static_assert(std::endian::native == std::endian::little,
 
 static_assert(std::is_standard_layout_v<TriggerPrimitive>);
 static_asset(std::is_trivially_copyable_v<TriggerPrimitive>);
-  
+
 } // namespace dunedaq::trgdataformats
 
 // NOLINTEND(build/unsigned)
