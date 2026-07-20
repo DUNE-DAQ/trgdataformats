@@ -82,7 +82,7 @@ static_assert(std::endian::native == std::endian::little,
               "The TriggerPrimitive bitfield layout assumes little-endian architecture");
 
 static_assert(std::is_standard_layout_v<TriggerPrimitive>);
-static_asset(std::is_trivially_copyable_v<TriggerPrimitive>);
+static_assert(std::is_trivially_copyable_v<TriggerPrimitive>);
 
 } // namespace dunedaq::trgdataformats
 
