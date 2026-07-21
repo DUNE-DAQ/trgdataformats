@@ -107,7 +107,6 @@ BOOST_AUTO_TEST_CASE(TriggerCandidateData_DefaultValues)
   BOOST_REQUIRE_EQUAL(static_cast<int>(tc.type), static_cast<int>(TriggerCandidateData::Type::kUnknown));
   BOOST_REQUIRE_EQUAL(static_cast<int>(tc.algorithm), static_cast<int>(TriggerCandidateData::Algorithm::kUnknown));
 
-  // This expectation is intentionally strict to catch missing default-initialization policy.
   BOOST_REQUIRE_EQUAL(tc.detid, TypeDefaults::s_invalid_detid);
 }
 

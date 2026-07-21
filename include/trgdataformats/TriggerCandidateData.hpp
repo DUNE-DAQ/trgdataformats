@@ -90,7 +90,7 @@ struct TriggerCandidateData
   // std::vector<detid_t> but that messes up the overlay scheme, so
   // I've changed it for now to be just a detid_t. Need to work out
   // what to do longer term
-  detid_t detid;
+  detid_t detid = TypeDefaults::s_invalid_detid;
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
 };
