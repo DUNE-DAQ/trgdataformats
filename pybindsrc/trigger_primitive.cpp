@@ -35,14 +35,14 @@ register_trigger_primitive(py::module& m)
     .def_property_readonly_static("s_invalid_tp_channel", [](py::object /*self*/) {return TriggerPrimitive::s_invalid_tp_channel;})
     .def_property_readonly_static("s_expected_bytes", [](py::object /*self*/) {return TriggerPrimitive::s_expected_bytes;})
     .def_property_readonly("version", [](TriggerPrimitive& self) -> uint8_t {return self.version;})
+    .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint8_t {return self.flag;})
+    .def_property_readonly("detid", [](TriggerPrimitive& self) -> uint8_t {return self.detid;})
+    .def_property_readonly("channel", [](TriggerPrimitive& self) -> uint32_t {return uint32_t(self.channel);})
+    .def_property_readonly("samples_over_threshold", [](TriggerPrimitive& self) -> uint16_t {return self.samples_over_threshold;})
     .def_property_readonly("time_start", [](TriggerPrimitive& self) -> uint64_t {return self.time_start;})
     .def_property_readonly("samples_to_peak", [](TriggerPrimitive& self) -> uint16_t {return self.samples_to_peak;})
-    .def_property_readonly("samples_over_threshold", [](TriggerPrimitive& self) -> uint16_t {return self.samples_over_threshold;})
-    .def_property_readonly("channel", [](TriggerPrimitive& self) -> uint32_t {return uint32_t(self.channel);})
     .def_property_readonly("adc_integral", [](TriggerPrimitive& self) -> uint32_t {return self.adc_integral;})
     .def_property_readonly("adc_peak", [](TriggerPrimitive& self) -> uint16_t {return self.adc_peak;})
-    .def_property_readonly("detid", [](TriggerPrimitive& self) -> uint8_t {return self.detid;})
-    .def_property_readonly("flag", [](TriggerPrimitive& self) -> uint8_t {return self.flag;})
     .def("get_timestamp", &TriggerPrimitive::get_timestamp)
     .def("set_timestamp", &TriggerPrimitive::set_timestamp)
     .def("__lt__", &TriggerPrimitive::operator<)
@@ -52,5 +52,9 @@ register_trigger_primitive(py::module& m)
 }
 
 } // namespace dunedaq::trgdataformats::python
+
+static_assert(
+  dunedaq::trgdataformats::TriggerPrimitive::s_trigger_primitive_version == 2,
+  "Version of TriggerPrimitive appears to have changed; as a developer please update the Python bindings in this file before updating this static_assert");
 
 // NOLINTEND(build/unsigned)

@@ -58,6 +58,7 @@ register_trigger_candidate(py::module& m)
       auto tp = *static_cast<TriggerCandidateData*>(info.ptr);
       return tp;
     }))
+    .def_property_readonly_static("s_trigger_candidate_version", [](py::object /*self*/) { return TriggerCandidateData::s_trigger_candidate_version; })
     .def_property_readonly("version", [](TriggerCandidateData& self) -> uint16_t {return self.version;})
     .def_property_readonly("time_start", [](TriggerCandidateData& self) -> uint64_t {return self.time_start;})
     .def_property_readonly("time_end", [](TriggerCandidateData& self) -> uint64_t {return self.time_end;})
@@ -171,5 +172,9 @@ register_trigger_candidate(py::module& m)
 } // namespace python
 } // namespace trgdataformats
 } // namespace dunedaq
+
+static_assert(
+  dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3,
+  "Version of TriggerCandidateData appears to have changed; as a developer please update the Python bindings in this file before updating this static_assert");
 
 // NOLINTEND(build/unsigned)
