@@ -16,6 +16,7 @@
 
 namespace dunedaq::trgdataformats::python {
 
+  void register_types(pybind11::module &);
   void register_trigger_primitive(pybind11::module &);
   // void register_trigger_bitwords(pybind11::module &);
   void register_trigger_activity(pybind11::module &);
