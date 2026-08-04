@@ -39,7 +39,6 @@ struct TriggerActivityData
     kSWIFT = 11
   };
 
-  // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_activity_version = 2;
   static constexpr channel_t s_invalid_channel = std::numeric_limits<channel_t>::max();
 

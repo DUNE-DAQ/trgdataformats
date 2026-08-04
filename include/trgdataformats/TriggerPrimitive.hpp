@@ -27,12 +27,13 @@ namespace dunedaq::trgdataformats {
  */
 struct TriggerPrimitive
 {
-  static constexpr uint8_t s_trigger_primitive_version = 2;
+  static constexpr version_t s_trigger_primitive_version = 2;
+  static constexpr std::size_t s_expected_bytes = 24;
+
   static constexpr uint16_t s_invalid_samples_over_threshold = std::numeric_limits<uint16_t>::max();
   static constexpr uint16_t s_invalid_samples_to_peak = std::numeric_limits<uint16_t>::max();
-  static constexpr channel_t s_invalid_tp_channel = 0xFFFFFF; // TP channel limit is at 24 b
-  static constexpr std::size_t s_expected_bytes = 24;
-  
+  static constexpr channel_t s_invalid_tp_channel = 0xFFFFFF; // TP channel limit is at 24 bytes
+
   // Metadata.
   uint64_t version : 8;
   uint64_t flag : 8;
@@ -60,6 +61,10 @@ struct TriggerPrimitive
     , adc_peak(0)
   {}
 
+  // Despite this being a struct, the getter and setter for timestamp
+  // brings the struct closer into compliance with the standard
+  // overlay
+
   timestamp_t get_timestamp() const
   {
     return time_start;
@@ -76,7 +81,17 @@ struct TriggerPrimitive
 };
 
 // Basic checks that the bits are arranged as we hope they're arranged
-static_assert(sizeof(TriggerPrimitive) == TriggerPrimitive::s_expected_bytes);
+
+// TODO John Freeman (jcfree@fnal.gov), Aug-1-2026
+
+// In the next two months, take these static_asserts and write up a
+// concept which encompasses them - something like
+// SafeBitLayoutConcept - and figure out the right package to put it
+// in, so that both this and the far detector-specific overlay classes
+// can use them
+  
+static_assert(sizeof(TriggerPrimitive) == TriggerPrimitive::s_expected_bytes,
+	      "The actual size of the TriggerPrimitive isn't the expected size; the compiler is likely inserting padding");
 
 static_assert(std::endian::native == std::endian::little,
               "The TriggerPrimitive bitfield layout assumes little-endian architecture");

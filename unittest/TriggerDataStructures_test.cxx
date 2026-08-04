@@ -110,23 +110,6 @@ BOOST_AUTO_TEST_CASE(TriggerCandidateData_DefaultValues)
   BOOST_REQUIRE_EQUAL(tc.detid, TypeDefaults::s_invalid_detid);
 }
 
-BOOST_AUTO_TEST_CASE(TriggerCandidateData_TypeMapCompleteness)
-{
-  const auto type_map = get_trigger_candidate_type_names();
-  BOOST_REQUIRE_EQUAL(type_map.size(), 39);
-
-  std::set<std::string> names;
-  for (const auto& kv : type_map) {
-    const auto inserted = names.insert(kv.second).second;
-    BOOST_REQUIRE(inserted);
-    BOOST_REQUIRE_EQUAL(trigger_candidate_type_to_string(kv.first), kv.second);
-    BOOST_REQUIRE_EQUAL(static_cast<int>(string_to_trigger_candidate_type(kv.second)), static_cast<int>(kv.first));
-  }
-
-  BOOST_REQUIRE_EQUAL(type_map.at(TriggerCandidateData::Type::kUnknown), "kUnknown");
-  BOOST_REQUIRE_EQUAL(type_map.at(TriggerCandidateData::Type::kSSPLEDCalibration), "kSSPLEDCalibration");
-}
-
 BOOST_AUTO_TEST_CASE(Types_DefaultConstants)
 {
   BOOST_REQUIRE_EQUAL(TypeDefaults::s_invalid_timestamp, std::numeric_limits<timestamp_t>::max());

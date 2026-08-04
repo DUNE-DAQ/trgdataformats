@@ -11,6 +11,7 @@
 
 #include "trgdataformats/Types.hpp"
 
+#include <array>
 #include <cstdint>
 #include <map>
 #include <string>
@@ -19,6 +20,10 @@ namespace dunedaq::trgdataformats {
 
 struct TriggerCandidateData
 {
+  // If you add an enum to TriggerCandidateData::Type, declare it
+  // second-to-last (just above kNumEnums) and ensure its value is +1
+  // greater than the enum above it
+
   enum class Type : int
   {
     kUnknown = 0,
@@ -60,6 +65,7 @@ struct TriggerCandidateData
     kDTSPulser = 36,
     kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
+    kNumEnums
   };
 
   enum class Algorithm : int
@@ -79,7 +85,6 @@ struct TriggerCandidateData
     kChannelAdjacency = 12,
   };
 
-  // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_candidate_version = 3;
 
   version_t version = s_trigger_candidate_version;
@@ -95,76 +100,15 @@ struct TriggerCandidateData
   Algorithm algorithm = Algorithm::kUnknown;
 };
 
-// This map needs to be updated for each new TC type, as this is used when configuring Trigger Bitwords, affecting
-// trigger logic in trigger::MLT
-inline std::map<TriggerCandidateData::Type, std::string>
-get_trigger_candidate_type_names()
-{
-  static const std::map<TriggerCandidateData::Type, std::string> map {
-    { TriggerCandidateData::Type::kUnknown, "kUnknown" },
-    { TriggerCandidateData::Type::kTiming, "kTiming" },
-    { TriggerCandidateData::Type::kTPCLowE, "kTPCLowE" },
-    { TriggerCandidateData::Type::kSupernova, "kSupernova" },
-    { TriggerCandidateData::Type::kRandom, "kRandom" },
-    { TriggerCandidateData::Type::kPrescale, "kPrescale" },
-    { TriggerCandidateData::Type::kADCSimpleWindow, "kADCSimpleWindow" },
-    { TriggerCandidateData::Type::kHorizontalMuon, "kHorizontalMuon" },
-    { TriggerCandidateData::Type::kMichelElectron, "kMichelElectron" },
-    { TriggerCandidateData::Type::kPlaneCoincidence, "kPlaneCoincidence" },
-    { TriggerCandidateData::Type::kDBSCAN, "kDBSCAN" },
-    { TriggerCandidateData::Type::kChannelDistance, "kChannelDistance" },
-    { TriggerCandidateData::Type::kBundle, "kBundle" },
-    { TriggerCandidateData::Type::kCTBFakeTrigger, "kCTBFakeTrigger" },
-    { TriggerCandidateData::Type::kCTBBeam, "kCTBBeam" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHL, "kCTBBeamChkvHL" },
-    { TriggerCandidateData::Type::kCTBCustomD, "kCTBCustomD" },
-    { TriggerCandidateData::Type::kCTBCustomE, "kCTBCustomE" },
-    { TriggerCandidateData::Type::kCTBCustomF, "kCTBCustomF" },
-    { TriggerCandidateData::Type::kCTBCustomG, "kCTBCustomG" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHLx, "kCTBBeamChkvHLx" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHxL, "kCTBBeamChkvHxL" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHxLx, "kCTBBeamChkvHxLx" },
-    { TriggerCandidateData::Type::kNeutronSourceCalib, "kNeutronSourceCalib" },
-    { TriggerCandidateData::Type::kChannelAdjacency, "kChannelAdjacency" },
-    { TriggerCandidateData::Type::kCIBFakeTrigger, "kCIBFakeTrigger" },
-    { TriggerCandidateData::Type::kCIBLaserTriggerP1, "kCIBLaserTriggerP1" },
-    { TriggerCandidateData::Type::kCIBLaserTriggerP2, "kCIBLaserTriggerP2" },
-    { TriggerCandidateData::Type::kCIBLaserTriggerP3, "kCIBLaserTriggerP3" },
-    { TriggerCandidateData::Type::kCTBOffSpillSnapshot, "kCTBOffSpillSnapshot" },
-    { TriggerCandidateData::Type::kCTBOffSpillCosmicJura, "kCTBOffSpillCosmicJura" },
-    { TriggerCandidateData::Type::kCTBOffSpillCRTCosmic, "kCTBOffSpillCRTCosmic" },
-    { TriggerCandidateData::Type::kCTBBeamSpillStart, "kCTBBeamSpillStart" },
-    { TriggerCandidateData::Type::kCTBBeamSpillSnapshot, "kCTBBeamSpillSnapshot" },
-    { TriggerCandidateData::Type::kCTBCustomC, "kCTBCustomC" },
-    { TriggerCandidateData::Type::kCTBCustomPulseTrain, "kCTBCustomPulseTrain" },
-    { TriggerCandidateData::Type::kDTSPulser, "kDTSPulser" },
-    { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
-    { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
-  };
-  
-  return map;
-}
+  inline TriggerCandidateData::Type
+  string_to_trigger_candidate_type(const std::string& name);
 
-inline TriggerCandidateData::Type
-string_to_trigger_candidate_type(const std::string& name)
-{
-  for (auto& it : get_trigger_candidate_type_names()) {
-    if (it.second == name)
-      return it.first;
-  }
-  return TriggerCandidateData::Type::kUnknown;
-}
-
-inline std::string
-trigger_candidate_type_to_string(const TriggerCandidateData::Type& type)
-{
-  const auto& map { get_trigger_candidate_type_names() };
-  auto elem { map.find(type) };
-
-  return elem != map.end() ? elem->second : "kUnknown";
-}
+  inline std::string
+  trigger_candidate_type_to_string(const TriggerCandidateData::Type type);
 
 } // namespace dunedaq::trgdataformats
+
+#include "detail/TriggerCandidateData.hxx"
 
 // This static_assert is meant to alert the developer to bump the
 // version if variables are added or removed in TriggerCandidateData
