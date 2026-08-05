@@ -21,7 +21,7 @@ namespace dunedaq::trgdataformats {
 struct TriggerCandidateData
 {
   // If you add an enum to TriggerCandidateData::Type, declare it
-  // second-to-last (just above kNumEnums) and ensure its value is +1
+  // second-to-last (just above kFinalEnum) and ensure its value is +1
   // greater than the enum above it
 
   enum class Type : int
@@ -65,7 +65,7 @@ struct TriggerCandidateData
     kDTSPulser = 36,
     kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
-    kNumEnums
+    kFinalEnum
   };
 
   enum class Algorithm : int

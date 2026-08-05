@@ -4,7 +4,7 @@ namespace dunedaq::trgdataformats {
   // tcinfo_t is a constexpr-declarable container of pairs, each pair
   // connecting a TriggerCandidateData::Type with its name
   using tcinfo_t = std::array<std::pair<TriggerCandidateData::Type, std::string_view>,
-			      static_cast<size_t>(TriggerCandidateData::Type::kNumEnums)>;
+			      static_cast<size_t>(TriggerCandidateData::Type::kFinalEnum)>;
   
   inline const tcinfo_t&
   get_trigger_candidate_type_names()
@@ -56,9 +56,13 @@ namespace dunedaq::trgdataformats {
       }
     };
 
+
     // Check to ensure that if a new TriggerCandidateData::Type is
     // created, this function is updated accordingly
-    static_assert(names.size() == static_cast<size_t>(TriggerCandidateData::Type::kNumEnums));
+
+    // The string in a default-initialized {type, string} pair will
+    // boolean-equal ""
+    static_assert(names[names.size() - 1].second != "");
 
     return names;
   }
