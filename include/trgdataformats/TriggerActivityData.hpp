@@ -1,6 +1,12 @@
 /**
  * @file TriggerActivityData.hpp
  *
+ * This header defines the TriggerActivityData struct, which
+ * aggregates information about a found set of associate trigger
+ * primitives (algorithm used, channels and times involved, etc.). It
+ * does *not* include per-trigger-primitive information, which need to
+ * be associated with TriggerActivityData in a higher level object.
+ *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.

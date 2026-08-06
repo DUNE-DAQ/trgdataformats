@@ -1,6 +1,9 @@
 /**
  * @file TriggerPrimitive.hpp
  *
+ * This header defines an overlay struct for trigger primitives, a
+ * single energy deposition on a TPC or PDS channel.
+ *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.

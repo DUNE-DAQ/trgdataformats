@@ -1,6 +1,13 @@
 /**
  * @file TriggerCandidateData.hpp
  *
+ * This header defines the TriggerCandidateData struct, which
+ * aggregates information about a found set of associated trigger
+ * activities (general type of candidate, algorithm used, times
+ * involved, etc.). It does *not* include per-trigger-activity
+ * information, which need to be associated with TriggerCandidateData
+ * in a higher level object.
+ *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.

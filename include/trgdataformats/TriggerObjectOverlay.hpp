@@ -1,6 +1,16 @@
 /**
  * @file TriggerObjectOverlay.hpp
  *
+ * This header defines the "TriggerActivity" and "TriggerCandidate"
+ * structs, which are instantiations of the TriggerObjectOverlay
+ * template. Continguous in memory, a TriggerActivity instance is an
+ * instance of TriggerActivityData followed by n_inputs
+ * TriggerPrimitive instances. Likewise, a TriggerCandidate instance
+ * is an instance of TriggerCandidateData followed by n_inputs
+ * TriggerActivityData (not to be confused with TriggerActivity)
+ * instances.
+ *
+ *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.

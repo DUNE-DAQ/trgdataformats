@@ -1,6 +1,11 @@
 /**
  * @file Types.hpp
  *
+ * This header defines the types used in this package for various
+ * kinds of data (timestamps, channels, etc.). It also contains some
+ * predefined constants representing invalid values as well as a "read
+ * out the whole detector" value.
+ *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
