@@ -13,6 +13,9 @@
 #include "trgdataformats/TriggerCandidateData.hpp"
 #include "trgdataformats/TriggerPrimitive.hpp"
 
+#include <algorithm>
+#include <span>
+
 namespace dunedaq::trgdataformats {
 
 template<class DataType, class InputType>
@@ -26,6 +29,12 @@ struct TriggerObjectOverlay
   #pragma GCC diagnostic ignored "-Wpedantic"
   input_t inputs[]; // Non-standard flexible array member, but alternatives are worse
   #pragma GCC diagnostic pop
+
+  void set_inputs(std::span<const input_t> in)
+  {
+    n_inputs = static_cast<uint64_t>(in.size());
+    std::copy(in.begin(), in.end(), inputs);
+  }
 };
 
 using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;

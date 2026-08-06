@@ -20,6 +20,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <new>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -129,6 +130,30 @@ BOOST_AUTO_TEST_CASE(TriggerObjectOverlay_AliasesAndLayout)
 
   BOOST_REQUIRE_EQUAL(offsetof(TriggerActivity, n_inputs), sizeof(TriggerActivityData));
   BOOST_REQUIRE_EQUAL(offsetof(TriggerCandidate, n_inputs), sizeof(TriggerCandidateData));
+}
+
+BOOST_AUTO_TEST_CASE(TriggerObjectOverlay_SetInputs)
+{
+  std::vector<TriggerPrimitive> tps(3);
+  tps[0].time_start = 100;
+  tps[0].channel = 10;
+  tps[1].time_start = 101;
+  tps[1].channel = 11;
+  tps[2].time_start = 102;
+  tps[2].channel = 12;
+
+  // Recall that the "inputs" in the struct are a flexible array member which needs space allocated for it
+  const std::size_t nbytes = sizeof(TriggerActivity) + tps.size() * sizeof(TriggerPrimitive);
+  void* storage_for_ta_overlay = ::operator new(nbytes);
+  auto* ta = new (storage_for_ta_overlay) TriggerActivity{};
+
+  ta->set_inputs(tps);
+  BOOST_REQUIRE_EQUAL(ta->n_inputs, tps.size());
+
+  for (size_t i = 0; i < tps.size(); ++i) {
+    BOOST_REQUIRE_EQUAL(tps[i].time_start, ta->inputs[i].time_start);
+    BOOST_REQUIRE_EQUAL(tps[i].channel, ta->inputs[i].channel);
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
