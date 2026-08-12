@@ -136,7 +136,7 @@ register_trigger_activity(py::module& m)
       .def("sizeof", [](TriggerActivityHolder& self){ return self.m_size; })
       
       ;
-}
+} // NOLINT function length, while long enough to trip the linter, is fine
 
 } // namespace dunedaq::trgdataformats::python
 

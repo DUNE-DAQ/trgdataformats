@@ -167,7 +167,7 @@ register_trigger_candidate(py::module& m)
             }, py::return_value_policy::reference_internal)
       .def("sizeof", [](TriggerCandidateHolder& self){ return self.m_size; })
       ;
-}
+}  // NOLINT function length, while long enough to trip the linter, is fine
 
 } // namespace python
 } // namespace trgdataformats

@@ -17,6 +17,7 @@
 
 #include "trgdataformats/Types.hpp"
 #include <cstdint>
+#include <limits>
 
 namespace dunedaq::trgdataformats {
 
