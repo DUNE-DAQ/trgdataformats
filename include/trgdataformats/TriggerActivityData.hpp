@@ -36,7 +36,8 @@ struct TriggerActivityData
     kChannelDistance = 8,
     kBundle = 9,
     kChannelAdjacency = 10,
-    kSWIFT = 11
+    kSWIFT = 11,
+    kProtoDUNEBSMWindow = 12
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!

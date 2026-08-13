@@ -88,7 +88,8 @@ register_trigger_activity(py::module& m)
     .value("kBundle", TriggerActivityData::Algorithm::kBundle)
     .value("kChannelDistance", TriggerActivityData::Algorithm::kChannelDistance)
     .value("kChannelAdjacency", TriggerActivityData::Algorithm::kChannelAdjacency)
-    .value("kSWIFT", TriggerActivityData::Algorithm::kSWIFT);
+    .value("kSWIFT", TriggerActivityData::Algorithm::kSWIFT)
+    .value("kProtoDUNEBSMWindow", TriggerActivityData::Algorithm::kProtoDUNEBSMWindow);
 
   py::class_<TriggerActivity>(m, "TriggerActivityOverlay", py::buffer_protocol())
       .def(py::init())
