@@ -62,7 +62,7 @@ namespace dunedaq::trgdataformats {
 
     // The string in a default-initialized {type, string} pair will
     // boolean-equal ""
-    static_assert(names[names.size() - 1].second != "");
+    static_assert(names[names.size() - 1].second != "", "The container providing names for TriggerCandidateData::Type values appears to be incomplete");
 
     return names;
   }

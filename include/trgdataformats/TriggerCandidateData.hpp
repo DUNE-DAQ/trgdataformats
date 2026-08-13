@@ -121,7 +121,8 @@ struct TriggerCandidateData
 // version if variables are added or removed in TriggerCandidateData
 static_assert(
 	      dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3 &&
-	      sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48
+	      sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48,
+	      "An unexpected size for the current version of TriggerCandidateData was found"
 	      );
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERCANDIDATEDATA_HPP_
