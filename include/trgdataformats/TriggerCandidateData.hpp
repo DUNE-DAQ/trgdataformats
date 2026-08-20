@@ -60,6 +60,7 @@ struct TriggerCandidateData
     kDTSPulser = 36,
     kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
+    kProtoDUNEBSMWindow = 39
   };
 
   enum class Algorithm
@@ -140,6 +141,7 @@ get_trigger_candidate_type_names()
     { TriggerCandidateData::Type::kDTSPulser, "kDTSPulser" },
     { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
     { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
+    { TriggerCandidateData::Type::kProtoDUNEBSMWindow, "kProtoDUNEBSMWindow" }
   };
 }
 
