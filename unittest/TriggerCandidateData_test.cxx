@@ -28,16 +28,16 @@ BOOST_AUTO_TEST_CASE(FragmentTypeConversion)
                       static_cast<int>(TriggerCandidateData::Type::kTiming));
   BOOST_REQUIRE_EQUAL(trigger_candidate_type_to_string(TriggerCandidateData::Type::kTiming), "kTiming");
 
-  auto type_map = get_trigger_candidate_type_names();
+  auto type_container = get_trigger_candidate_type_names();
   // sanity check
-  for (auto& type_pair : type_map) {
+  for (const auto& [type, type_name] : type_container) {
     BOOST_TEST_MESSAGE("TriggerCandidateData type "
-                       << int(type_pair.first) << " " << type_pair.second
-                       << " with conversions: " << int(string_to_trigger_candidate_type(type_pair.second)) << " "
-                       << trigger_candidate_type_to_string(type_pair.first));
-    BOOST_REQUIRE_EQUAL(static_cast<int>(string_to_trigger_candidate_type(type_pair.second)),
-                        static_cast<int>(type_pair.first));
-    BOOST_REQUIRE_EQUAL(trigger_candidate_type_to_string(type_pair.first), type_pair.second);
+                       << int(type) << " " << type_name
+                       << " with conversions: " << int(string_to_trigger_candidate_type(std::string(type_name))) << " "
+                       << trigger_candidate_type_to_string(type));
+    BOOST_REQUIRE_EQUAL(static_cast<int>(string_to_trigger_candidate_type(std::string(type_name))),
+                        static_cast<int>(type));
+    BOOST_REQUIRE_EQUAL(trigger_candidate_type_to_string(type), type_name);
   }
 
   BOOST_REQUIRE_EQUAL(static_cast<int>(string_to_trigger_candidate_type("thisIsABadFragmentType")),

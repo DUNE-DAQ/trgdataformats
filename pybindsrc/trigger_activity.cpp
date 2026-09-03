@@ -14,9 +14,9 @@
 
 namespace py = pybind11;
 
-namespace dunedaq {
-namespace trgdataformats {
-namespace python {
+// NOLINTBEGIN(build/unsigned)
+
+namespace dunedaq::trgdataformats::python {
 
 /*
  Doesn't work
@@ -54,14 +54,16 @@ register_trigger_activity(py::module& m)
       auto tp = *static_cast<TriggerActivityData*>(info.ptr);
       return tp;
     }))
+    .def_property_readonly_static("s_trigger_activity_version", [](py::object /*self*/) { return TriggerActivityData::s_trigger_activity_version; })
+    .def_property_readonly_static("s_invalid_channel", [](py::object /*self*/) { return TriggerActivityData::s_invalid_channel; })
     .def_property_readonly("version", [](TriggerActivityData& self) -> uint16_t {return self.version;})
     .def_property_readonly("time_start", [](TriggerActivityData& self) -> uint64_t {return self.time_start;})
     .def_property_readonly("time_end", [](TriggerActivityData& self) -> uint64_t {return self.time_end;})
     .def_property_readonly("time_peak", [](TriggerActivityData& self) -> uint64_t {return self.time_peak;})
     .def_property_readonly("time_activity", [](TriggerActivityData& self) -> uint64_t {return self.time_activity;})
-    .def_property_readonly("channel_start", [](TriggerActivityData& self) -> int32_t {return self.channel_start;})
-    .def_property_readonly("channel_end", [](TriggerActivityData& self) -> int32_t {return self.channel_end;})
-    .def_property_readonly("channel_peak", [](TriggerActivityData& self) -> int32_t {return self.channel_peak;})
+    .def_property_readonly("channel_start", [](TriggerActivityData& self) -> channel_t {return self.channel_start;})
+    .def_property_readonly("channel_end", [](TriggerActivityData& self) -> channel_t {return self.channel_end;})
+    .def_property_readonly("channel_peak", [](TriggerActivityData& self) -> channel_t {return self.channel_peak;})
     .def_property_readonly("adc_integral", [](TriggerActivityData& self) -> uint32_t {return self.adc_integral;})
     .def_property_readonly("adc_peak", [](TriggerActivityData& self) -> uint32_t {return self.adc_peak;})
     .def_property_readonly("detid", [](TriggerActivityData& self) -> uint16_t {return self.detid;})
@@ -135,8 +137,12 @@ register_trigger_activity(py::module& m)
       .def("sizeof", [](TriggerActivityHolder& self){ return self.m_size; })
       
       ;
-}
+} // NOLINT function length, while long enough to trip the linter, is fine
 
-} // namespace python
-} // namespace trgdataformats
-} // namespace dunedaq
+} // namespace dunedaq::trgdataformats::python
+
+static_assert(
+  dunedaq::trgdataformats::TriggerActivityData::s_trigger_activity_version == 2,
+  "Version of TriggerActivityData appears to have changed; as a developer please update the Python bindings in this file before updating this static_assert");
+
+// NOLINTEND(build/unsigned)

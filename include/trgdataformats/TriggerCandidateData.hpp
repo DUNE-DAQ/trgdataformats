@@ -1,5 +1,12 @@
 /**
- * @file TriggerCandidate.hpp
+ * @file TriggerCandidateData.hpp
+ *
+ * This header defines the TriggerCandidateData struct, which
+ * aggregates information about a found set of associated trigger
+ * activities (general type of candidate, algorithm used, times
+ * involved, etc.). It does *not* include per-trigger-activity
+ * information, which need to be associated with TriggerCandidateData
+ * in a higher level object.
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
@@ -11,6 +18,7 @@
 
 #include "trgdataformats/Types.hpp"
 
+#include <array>
 #include <cstdint>
 #include <map>
 #include <string>
@@ -19,7 +27,11 @@ namespace dunedaq::trgdataformats {
 
 struct TriggerCandidateData
 {
-  enum class Type
+  // If you add an enum to TriggerCandidateData::Type, declare it
+  // second-to-last (just above kFinalEnum) and ensure its value is +1
+  // greater than the enum above it
+
+  enum class Type : int
   {
     kUnknown = 0,
     kTiming = 1,
@@ -60,10 +72,11 @@ struct TriggerCandidateData
     kDTSPulser = 36,
     kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
-    kProtoDUNEBSMWindow = 39
+    kProtoDUNEBSMWindow = 39,
+    kFinalEnum
   };
 
-  enum class Algorithm
+  enum class Algorithm : int
   {
     kUnknown = 0,
     kSupernova = 1,
@@ -80,92 +93,37 @@ struct TriggerCandidateData
     kChannelAdjacency = 12,
   };
 
-  // Update this version number if there are any changes to the in-memory representation of this class!
-  static constexpr version_t s_trigger_candidate_version = 3; // NOLINT(build/unsigned)
+  static constexpr version_t s_trigger_candidate_version = 3;
 
-  version_t version = s_trigger_candidate_version; // NOLINT(build/unsigned)
-  timestamp_t time_start = INVALID_TIMESTAMP;
-  timestamp_t time_end = INVALID_TIMESTAMP;
-  timestamp_t time_candidate = INVALID_TIMESTAMP;
+  version_t version = s_trigger_candidate_version;
+  timestamp_t time_start = TypeDefaults::s_invalid_timestamp;
+  timestamp_t time_end = TypeDefaults::s_invalid_timestamp;
+  timestamp_t time_candidate = TypeDefaults::s_invalid_timestamp;
   // TODO P. Rodrigues 2021-01-06: This was originally a
   // std::vector<detid_t> but that messes up the overlay scheme, so
   // I've changed it for now to be just a detid_t. Need to work out
   // what to do longer term
-  detid_t detid; // NOLINT(build/unsigned)
+  detid_t detid = TypeDefaults::s_invalid_detid;
   Type type = Type::kUnknown;
-  Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
+  Algorithm algorithm = Algorithm::kUnknown;
 };
 
-// This map needs to be updated for each new TC type, as this is used when configuring Trigger Bitwords, affecting
-// trigger logic in trigger::MLT
-inline std::map<TriggerCandidateData::Type, std::string>
-get_trigger_candidate_type_names()
-{
-  return {
-    { TriggerCandidateData::Type::kUnknown, "kUnknown" },
-    { TriggerCandidateData::Type::kTiming, "kTiming" },
-    { TriggerCandidateData::Type::kTPCLowE, "kTPCLowE" },
-    { TriggerCandidateData::Type::kSupernova, "kSupernova" },
-    { TriggerCandidateData::Type::kRandom, "kRandom" },
-    { TriggerCandidateData::Type::kPrescale, "kPrescale" },
-    { TriggerCandidateData::Type::kADCSimpleWindow, "kADCSimpleWindow" },
-    { TriggerCandidateData::Type::kHorizontalMuon, "kHorizontalMuon" },
-    { TriggerCandidateData::Type::kMichelElectron, "kMichelElectron" },
-    { TriggerCandidateData::Type::kPlaneCoincidence, "kPlaneCoincidence" },
-    { TriggerCandidateData::Type::kDBSCAN, "kDBSCAN" },
-    { TriggerCandidateData::Type::kChannelDistance, "kChannelDistance" },
-    { TriggerCandidateData::Type::kBundle, "kBundle" },
-    { TriggerCandidateData::Type::kCTBFakeTrigger, "kCTBFakeTrigger" },
-    { TriggerCandidateData::Type::kCTBBeam, "kCTBBeam" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHL, "kCTBBeamChkvHL" },
-    { TriggerCandidateData::Type::kCTBCustomD, "kCTBCustomD" },
-    { TriggerCandidateData::Type::kCTBCustomE, "kCTBCustomE" },
-    { TriggerCandidateData::Type::kCTBCustomF, "kCTBCustomF" },
-    { TriggerCandidateData::Type::kCTBCustomG, "kCTBCustomG" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHLx, "kCTBBeamChkvHLx" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHxL, "kCTBBeamChkvHxL" },
-    { TriggerCandidateData::Type::kCTBBeamChkvHxLx, "kCTBBeamChkvHxLx" },
-    { TriggerCandidateData::Type::kNeutronSourceCalib, "kNeutronSourceCalib" },
-    { TriggerCandidateData::Type::kChannelAdjacency, "kChannelAdjacency" },
-    { TriggerCandidateData::Type::kCIBFakeTrigger, "kCIBFakeTrigger" },
-    { TriggerCandidateData::Type::kCIBLaserTriggerP1, "kCIBLaserTriggerP1" },
-    { TriggerCandidateData::Type::kCIBLaserTriggerP2, "kCIBLaserTriggerP2" },
-    { TriggerCandidateData::Type::kCIBLaserTriggerP3, "kCIBLaserTriggerP3" },
-    { TriggerCandidateData::Type::kCTBOffSpillSnapshot, "kCTBOffSpillSnapshot" },
-    { TriggerCandidateData::Type::kCTBOffSpillCosmicJura, "kCTBOffSpillCosmicJura" },
-    { TriggerCandidateData::Type::kCTBOffSpillCRTCosmic, "kCTBOffSpillCRTCosmic" },
-    { TriggerCandidateData::Type::kCTBBeamSpillStart, "kCTBBeamSpillStart" },
-    { TriggerCandidateData::Type::kCTBBeamSpillSnapshot, "kCTBBeamSpillSnapshot" },
-    { TriggerCandidateData::Type::kCTBCustomC, "kCTBCustomC" },
-    { TriggerCandidateData::Type::kCTBCustomPulseTrain, "kCTBCustomPulseTrain" },
-    { TriggerCandidateData::Type::kDTSPulser, "kDTSPulser" },
-    { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
-    { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
-    { TriggerCandidateData::Type::kProtoDUNEBSMWindow, "kProtoDUNEBSMWindow" }
-  };
-}
+  inline TriggerCandidateData::Type
+  string_to_trigger_candidate_type(const std::string& name);
 
-inline int
-string_to_trigger_candidate_type(const std::string& name)
-{
-  for (auto& it : get_trigger_candidate_type_names()) {
-    if (it.second == name)
-      return static_cast<int>(it.first);
-  }
-  return static_cast<int>(TriggerCandidateData::Type::kUnknown);
-}
-
-inline std::string
-trigger_candidate_type_to_string(const TriggerCandidateData::Type& type)
-{
-  try {
-    return get_trigger_candidate_type_names().at(type);
-  }
-  catch(std::exception &e) {
-  }
-  return "kUnknown";
-}
+  inline std::string
+  trigger_candidate_type_to_string(const TriggerCandidateData::Type type);
 
 } // namespace dunedaq::trgdataformats
+
+#include "detail/TriggerCandidateData.hxx"
+
+// This static_assert is meant to alert the developer to bump the
+// version if variables are added or removed in TriggerCandidateData
+static_assert(
+	      dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3 &&
+	      sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48,
+	      "An unexpected size for the current version of TriggerCandidateData was found"
+	      );
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERCANDIDATEDATA_HPP_
