@@ -52,7 +52,8 @@ namespace dunedaq::trgdataformats {
     { TriggerCandidateData::Type::kCTBCustomPulseTrain, "kCTBCustomPulseTrain" },
     { TriggerCandidateData::Type::kDTSPulser, "kDTSPulser" },
     { TriggerCandidateData::Type::kDTSCosmic, "kDTSCosmic" },
-    { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" }
+    { TriggerCandidateData::Type::kSSPLEDCalibration, "kSSPLEDCalibration" },
+    { TriggerCandidateData::Type::kProtoDUNEBSMWindow, "kProtoDUNEBSMWindow" }
       }
     };
 

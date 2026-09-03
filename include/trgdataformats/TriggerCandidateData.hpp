@@ -72,6 +72,7 @@ struct TriggerCandidateData
     kDTSPulser = 36,
     kDTSCosmic = 37,
     kSSPLEDCalibration = 38,
+    kProtoDUNEBSMWindow = 39,
     kFinalEnum
   };
 

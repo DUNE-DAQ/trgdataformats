@@ -43,7 +43,8 @@ struct TriggerActivityData
     kChannelDistance = 8,
     kBundle = 9,
     kChannelAdjacency = 10,
-    kSWIFT = 11
+    kSWIFT = 11,
+    kProtoDUNEBSMWindow = 12
   };
 
   static constexpr version_t s_trigger_activity_version = 2;
