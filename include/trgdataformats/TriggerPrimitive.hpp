@@ -62,23 +62,19 @@ struct TriggerPrimitive
     , samples_to_peak(s_invalid_samples_to_peak)
     , adc_integral(0)
     , adc_peak(0)
-  {}
+  {
+  }
 
   // Despite this being a struct, the getter and setter for timestamp
   // brings the struct closer into compliance with the standard
   // overlay
 
-  timestamp_t get_timestamp() const
-  {
-    return time_start;
-  }
+  timestamp_t get_timestamp() const { return time_start; }
 
-  void set_timestamp(timestamp_t ts)
-  {
-    time_start = ts;
-  }
+  void set_timestamp(timestamp_t ts) { time_start = ts; }
 
-  bool operator<(const TriggerPrimitive& other) const {
+  bool operator<(const TriggerPrimitive& other) const
+  {
     return std::tie(time_start, channel) < std::tie(other.time_start, other.channel);
   }
 };
@@ -92,9 +88,10 @@ struct TriggerPrimitive
 // SafeBitLayoutConcept - and figure out the right package to put it
 // in, so that both this and the far detector-specific overlay classes
 // can use them
-  
-static_assert(sizeof(TriggerPrimitive) == TriggerPrimitive::s_expected_bytes,
-	      "The actual size of the TriggerPrimitive isn't the expected size; the compiler is likely inserting padding");
+
+static_assert(
+  sizeof(TriggerPrimitive) == TriggerPrimitive::s_expected_bytes,
+  "The actual size of the TriggerPrimitive isn't the expected size; the compiler is likely inserting padding");
 
 static_assert(std::endian::native == std::endian::little,
               "The TriggerPrimitive bitfield layout assumes little-endian architecture");

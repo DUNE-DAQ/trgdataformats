@@ -18,9 +18,11 @@ void
 register_types(py::module& m)
 {
   py::class_<TypeDefaults>(m, "TypeDefaults")
-    .def_property_readonly_static("s_invalid_timestamp", [](py::object /*self*/) { return TypeDefaults::s_invalid_timestamp; })
+    .def_property_readonly_static("s_invalid_timestamp",
+                                  [](py::object /*self*/) { return TypeDefaults::s_invalid_timestamp; })
     .def_property_readonly_static("s_invalid_detid", [](py::object /*self*/) { return TypeDefaults::s_invalid_detid; })
-    .def_property_readonly_static("s_invalid_trigger_number", [](py::object /*self*/) { return TypeDefaults::s_invalid_trigger_number; });
+    .def_property_readonly_static("s_invalid_trigger_number",
+                                  [](py::object /*self*/) { return TypeDefaults::s_invalid_trigger_number; });
 
   m.attr("g_whole_detector") = py::int_(g_whole_detector);
 }

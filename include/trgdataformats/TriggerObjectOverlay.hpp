@@ -35,10 +35,10 @@ struct TriggerObjectOverlay
   using input_t = InputType;
   data_t data;
   uint64_t n_inputs; // NOLINT(build/unsigned)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wpedantic"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   input_t inputs[]; // Non-standard flexible array member, but alternatives are worse
-  #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 
   void set_inputs(std::span<const input_t> in)
   {

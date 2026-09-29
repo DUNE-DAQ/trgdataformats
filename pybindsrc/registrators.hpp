@@ -8,7 +8,6 @@
  * received with this code.
  */
 
-
 #ifndef TRGDATAFORMATS_PYBINDSRC_REGISTRATORS_HPP_
 #define TRGDATAFORMATS_PYBINDSRC_REGISTRATORS_HPP_
 
@@ -16,11 +15,15 @@
 
 namespace dunedaq::trgdataformats::python {
 
-  void register_types(pybind11::module &);
-  void register_trigger_primitive(pybind11::module &);
-  // void register_trigger_bitwords(pybind11::module &);
-  void register_trigger_activity(pybind11::module &);
-  void register_trigger_candidate(pybind11::module &);
+void
+register_types(pybind11::module&);
+void
+register_trigger_primitive(pybind11::module&);
+// void register_trigger_bitwords(pybind11::module &);
+void
+register_trigger_activity(pybind11::module&);
+void
+register_trigger_candidate(pybind11::module&);
 
 }
 

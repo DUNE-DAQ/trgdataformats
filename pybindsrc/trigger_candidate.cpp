@@ -8,9 +8,9 @@
 
 #include "trgdataformats/TriggerObjectOverlay.hpp"
 
+#include <cstring>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <cstring>
 
 namespace py = pybind11;
 
@@ -23,20 +23,20 @@ namespace python {
 /*
  Doesn't work
 */
-struct TriggerCandidateHolder {
+struct TriggerCandidateHolder
+{
 
-
-  TriggerCandidateHolder(void* ptr, size_t size) {
+  TriggerCandidateHolder(void* ptr, size_t size)
+  {
     m_size = size;
     m_data.reset(new uint8_t[m_size]);
     std::memcpy(m_data.get(), ptr, size);
   }
 
-  TriggerCandidate* ptr() { return reinterpret_cast<TriggerCandidate*>(m_data.get());  }
+  TriggerCandidate* ptr() { return reinterpret_cast<TriggerCandidate*>(m_data.get()); }
 
   size_t m_size;
   std::unique_ptr<uint8_t[]> m_data;
-  
 };
 
 void
@@ -47,27 +47,27 @@ register_trigger_candidate(py::module& m)
   m.def("trigger_candidate_type_to_string", &trgdataformats::trigger_candidate_type_to_string);
 
   py::class_<TriggerCandidateData> trigger_candidate_data(m, "TriggerCandidateData", py::buffer_protocol());
-  trigger_candidate_data
-    .def(py::init())
+  trigger_candidate_data.def(py::init())
     .def(py::init([](py::capsule capsule) {
-        auto tp = *static_cast<TriggerCandidateData*>(capsule.get_pointer());
-        return tp;
-		  } ))
-    .def(py::init([](py::bytes bytes){
+      auto tp = *static_cast<TriggerCandidateData*>(capsule.get_pointer());
+      return tp;
+    }))
+    .def(py::init([](py::bytes bytes) {
       py::buffer_info info(py::buffer(bytes).request());
       auto tp = *static_cast<TriggerCandidateData*>(info.ptr);
       return tp;
     }))
-    .def_property_readonly_static("s_trigger_candidate_version", [](py::object /*self*/) { return TriggerCandidateData::s_trigger_candidate_version; })
-    .def_property_readonly("version", [](TriggerCandidateData& self) -> uint16_t {return self.version;})
-    .def_property_readonly("time_start", [](TriggerCandidateData& self) -> uint64_t {return self.time_start;})
-    .def_property_readonly("time_end", [](TriggerCandidateData& self) -> uint64_t {return self.time_end;})
-    .def_property_readonly("time_candidate", [](TriggerCandidateData& self) -> uint64_t {return self.time_candidate;})
-    .def_property_readonly("detid", [](TriggerCandidateData& self) -> uint16_t {return self.detid;})
-    .def_property_readonly("type", [](TriggerCandidateData& self) -> TriggerCandidateData::Type {return self.type;})
-    .def_property_readonly("algorithm", [](TriggerCandidateData& self) -> TriggerCandidateData::Algorithm {return self.algorithm;})
-    .def_static("sizeof", [](){ return sizeof(TriggerCandidateData); })
-    ;
+    .def_property_readonly_static("s_trigger_candidate_version",
+                                  [](py::object /*self*/) { return TriggerCandidateData::s_trigger_candidate_version; })
+    .def_property_readonly("version", [](TriggerCandidateData& self) -> uint16_t { return self.version; })
+    .def_property_readonly("time_start", [](TriggerCandidateData& self) -> uint64_t { return self.time_start; })
+    .def_property_readonly("time_end", [](TriggerCandidateData& self) -> uint64_t { return self.time_end; })
+    .def_property_readonly("time_candidate", [](TriggerCandidateData& self) -> uint64_t { return self.time_candidate; })
+    .def_property_readonly("detid", [](TriggerCandidateData& self) -> uint16_t { return self.detid; })
+    .def_property_readonly("type", [](TriggerCandidateData& self) -> TriggerCandidateData::Type { return self.type; })
+    .def_property_readonly("algorithm",
+                           [](TriggerCandidateData& self) -> TriggerCandidateData::Algorithm { return self.algorithm; })
+    .def_static("sizeof", []() { return sizeof(TriggerCandidateData); });
 
   py::enum_<TriggerCandidateData::Type>(trigger_candidate_data, "Type")
     .value("kUnknown", TriggerCandidateData::Type::kUnknown)
@@ -127,55 +127,57 @@ register_trigger_candidate(py::module& m)
     .value("kChannelAdjacency", TriggerCandidateData::Algorithm::kChannelAdjacency);
 
   py::class_<TriggerCandidate>(m, "TriggerCandidateOverlay", py::buffer_protocol())
-      .def(py::init([](py::capsule capsule) {
-        auto tp = *static_cast<TriggerCandidate*>(capsule.get_pointer());
-        return tp;
-		  } ))
-      .def_property_readonly("data", [](TriggerCandidate& self) -> TriggerCandidateData& {return self.data;})
-      .def("__len__", [](TriggerCandidate& self){ return self.n_inputs; })
-      .def("sizeof", [](TriggerCandidate& self){ return sizeof(TriggerCandidate)+self.n_inputs*sizeof(TriggerActivityData); })
-    ;
+    .def(py::init([](py::capsule capsule) {
+      auto tp = *static_cast<TriggerCandidate*>(capsule.get_pointer());
+      return tp;
+    }))
+    .def_property_readonly("data", [](TriggerCandidate& self) -> TriggerCandidateData& { return self.data; })
+    .def("__len__", [](TriggerCandidate& self) { return self.n_inputs; })
+    .def("sizeof",
+         [](TriggerCandidate& self) { return sizeof(TriggerCandidate) + self.n_inputs * sizeof(TriggerActivityData); });
 
+  py::class_<TriggerCandidateHolder>(m, "TriggerCandidate", py::buffer_protocol())
+    .def(py::init([](py::capsule capsule) {
+      auto tc_ptr = static_cast<TriggerCandidate*>(capsule.get_pointer());
+      TriggerCandidateHolder tch(tc_ptr, sizeof(TriggerCandidate) + tc_ptr->n_inputs * sizeof(TriggerActivityData));
+      return tch;
+    }))
+    .def(py::init([](py::bytes bytes) {
+      py::buffer_info info(py::buffer(bytes).request());
 
-    py::class_<TriggerCandidateHolder>(m, "TriggerCandidate", py::buffer_protocol())
-      .def(py::init([](py::capsule capsule) {
-           auto tc_ptr = static_cast<TriggerCandidate*>(capsule.get_pointer());
-           TriggerCandidateHolder tch(tc_ptr, sizeof(TriggerCandidate)+tc_ptr->n_inputs*sizeof(TriggerActivityData));
-           return tch;
-        }))
-      .def(py::init([](py::bytes bytes){
-          py::buffer_info info(py::buffer(bytes).request());
+      TriggerCandidateHolder tch(info.ptr, info.size);
 
-          TriggerCandidateHolder tch(info.ptr, info.size);
+      return tch;
+    }))
 
-          return tch;
-        }))
-
-      .def("get_bytes",
-          [](TriggerCandidateHolder& tch) -> py::bytes {
-            return py::bytes(reinterpret_cast<char*>(tch.ptr()), tch.m_size);
-          }, py::return_value_policy::reference_internal
-      )
-      .def_property_readonly("data", [](TriggerCandidateHolder& self) -> TriggerCandidateData& {return self.ptr()->data;})
-      .def("n_inputs", [](TriggerCandidateHolder& self){ return self.ptr()->n_inputs; })
-      .def("__len__", [](TriggerCandidateHolder& self){ return self.ptr()->n_inputs; })
-      .def("__getitem__",
-            [](TriggerCandidateHolder &self, size_t i) -> const TriggerActivityData& {
-                if (i >= self.ptr()->n_inputs) {
-                    throw py::index_error();
-                }
-                return self.ptr()->inputs[i];
-            }, py::return_value_policy::reference_internal)
-      .def("sizeof", [](TriggerCandidateHolder& self){ return self.m_size; })
-      ;
-}  // NOLINT function length, while long enough to trip the linter, is fine
+    .def(
+      "get_bytes",
+      [](TriggerCandidateHolder& tch) -> py::bytes {
+        return py::bytes(reinterpret_cast<char*>(tch.ptr()), tch.m_size);
+      },
+      py::return_value_policy::reference_internal)
+    .def_property_readonly("data",
+                           [](TriggerCandidateHolder& self) -> TriggerCandidateData& { return self.ptr()->data; })
+    .def("n_inputs", [](TriggerCandidateHolder& self) { return self.ptr()->n_inputs; })
+    .def("__len__", [](TriggerCandidateHolder& self) { return self.ptr()->n_inputs; })
+    .def(
+      "__getitem__",
+      [](TriggerCandidateHolder& self, size_t i) -> const TriggerActivityData& {
+        if (i >= self.ptr()->n_inputs) {
+          throw py::index_error();
+        }
+        return self.ptr()->inputs[i];
+      },
+      py::return_value_policy::reference_internal)
+    .def("sizeof", [](TriggerCandidateHolder& self) { return self.m_size; });
+} // NOLINT function length, while long enough to trip the linter, is fine
 
 } // namespace python
 } // namespace trgdataformats
 } // namespace dunedaq
 
-static_assert(
-  dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3,
-  "Version of TriggerCandidateData appears to have changed; as a developer please update the Python bindings in this file before updating this static_assert");
+static_assert(dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3,
+              "Version of TriggerCandidateData appears to have changed; as a developer please update the Python "
+              "bindings in this file before updating this static_assert");
 
 // NOLINTEND(build/unsigned)

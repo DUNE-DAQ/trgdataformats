@@ -31,10 +31,9 @@ BOOST_AUTO_TEST_CASE(FragmentTypeConversion)
   auto type_container = get_trigger_candidate_type_names();
   // sanity check
   for (const auto& [type, type_name] : type_container) {
-    BOOST_TEST_MESSAGE("TriggerCandidateData type "
-                       << int(type) << " " << type_name
-                       << " with conversions: " << int(string_to_trigger_candidate_type(std::string(type_name))) << " "
-                       << trigger_candidate_type_to_string(type));
+    BOOST_TEST_MESSAGE("TriggerCandidateData type " << int(type) << " " << type_name << " with conversions: "
+                                                    << int(string_to_trigger_candidate_type(std::string(type_name)))
+                                                    << " " << trigger_candidate_type_to_string(type));
     BOOST_REQUIRE_EQUAL(static_cast<int>(string_to_trigger_candidate_type(std::string(type_name))),
                         static_cast<int>(type));
     BOOST_REQUIRE_EQUAL(trigger_candidate_type_to_string(type), type_name);

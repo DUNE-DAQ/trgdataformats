@@ -58,21 +58,18 @@ struct TriggerActivityData
   channel_t channel_start = s_invalid_channel;
   channel_t channel_end = s_invalid_channel;
   channel_t channel_peak = s_invalid_channel;
-  uint64_t adc_integral = 0;                 // NOLINT(build/unsigned)
-  uint16_t adc_peak = 0;                     // NOLINT(build/unsigned)
+  uint64_t adc_integral = 0; // NOLINT(build/unsigned)
+  uint16_t adc_peak = 0;     // NOLINT(build/unsigned)
   detid_t detid = TypeDefaults::s_invalid_detid;
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
 };
-  
+
 } // namespace dunedaq::trgdataformats
 
 // This static_assert is meant to alert the developer to bump the
 // version if variables are added or removed
-static_assert(
-	      dunedaq::trgdataformats::TriggerActivityData::s_trigger_activity_version == 2 &&
-	      sizeof(dunedaq::trgdataformats::TriggerActivityData) == 80
-	      );
-
+static_assert(dunedaq::trgdataformats::TriggerActivityData::s_trigger_activity_version == 2 &&
+              sizeof(dunedaq::trgdataformats::TriggerActivityData) == 80);
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERACTIVITYDATA_HPP_

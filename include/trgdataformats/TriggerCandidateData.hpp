@@ -64,7 +64,7 @@ struct TriggerCandidateData
     kCIBLaserTriggerP3 = 28,
     kCTBOffSpillSnapshot = 29,
     kCTBOffSpillCosmicJura = 30,
-    kCTBOffSpillCRTCosmic= 31,
+    kCTBOffSpillCRTCosmic = 31,
     kCTBBeamSpillStart = 32,
     kCTBBeamSpillSnapshot = 33,
     kCTBCustomC = 34,
@@ -108,11 +108,11 @@ struct TriggerCandidateData
   Algorithm algorithm = Algorithm::kUnknown;
 };
 
-  inline TriggerCandidateData::Type
-  string_to_trigger_candidate_type(const std::string& name);
+inline TriggerCandidateData::Type
+string_to_trigger_candidate_type(const std::string& name);
 
-  inline std::string
-  trigger_candidate_type_to_string(const TriggerCandidateData::Type type);
+inline std::string
+trigger_candidate_type_to_string(const TriggerCandidateData::Type type);
 
 } // namespace dunedaq::trgdataformats
 
@@ -120,10 +120,8 @@ struct TriggerCandidateData
 
 // This static_assert is meant to alert the developer to bump the
 // version if variables are added or removed in TriggerCandidateData
-static_assert(
-	      dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3 &&
-	      sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48,
-	      "An unexpected size for the current version of TriggerCandidateData was found"
-	      );
+static_assert(dunedaq::trgdataformats::TriggerCandidateData::s_trigger_candidate_version == 3 &&
+                sizeof(dunedaq::trgdataformats::TriggerCandidateData) == 48,
+              "An unexpected size for the current version of TriggerCandidateData was found");
 
 #endif // TRGDATAFORMATS_INCLUDE_TRGDATAFORMATS_TRIGGERCANDIDATEDATA_HPP_
